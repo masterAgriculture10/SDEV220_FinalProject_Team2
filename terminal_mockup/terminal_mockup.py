@@ -6,29 +6,24 @@ without worrying about the graphical part. It will allow us figure out the backe
 implementation before (or as) we make the front end.
 """
 
+import ui
+
 
 def main() -> None:
+    ui.start_display()
     username = login()
     # select_courses()
 
 
 def login() -> str:
     """Returns the username of a user when they input valid credentials"""
-    username, password = prompt_login()
+    username, password = ui.prompt_login()
 
     while not authenticate(username, password):
-        username, password = prompt_login(again=True)
+        ui.display_invalid_login()
+        username, password = ui.prompt_login()
 
     return username
-
-
-def prompt_login(again:bool=False) -> tuple[str, str]:
-    """Prompts the user to enter their username and password and returns them"""
-    if again:
-        print('Invalid username or password.', end='\n\n')
-    username = input('username: ')
-    password = input('password: ')
-    return username, password
 
 
 def authenticate(username: str, password: str) -> bool:
