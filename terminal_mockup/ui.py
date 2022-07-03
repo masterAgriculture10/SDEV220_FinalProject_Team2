@@ -30,3 +30,34 @@ def display_invalid_login() -> None:
     print('Invalid username or password.')
 
 
+def display_courses(courses: list[str]) -> None:
+    """Displays the input list of courses"""
+    print('Courses:')
+    for i in range(len(courses)):
+        print(f'({i+1})', courses[i])
+    print()
+
+
+def select_course(courses: list[str]) -> str:
+    """TODO: docstring"""
+    try:
+        choice_input = input(f'Choose a course to enroll in (1-{len(courses)}, ^C to exit): ')
+    except KeyboardInterrupt:
+        print('\nexiting...')
+        exit()
+    
+    try:
+        course_num = int(choice_input)
+        if not 1 <= course_num <= len(courses):
+            raise ValueError
+        return courses[course_num-1]
+        
+    except ValueError:
+        print('ValueError')
+
+
+def display_new_enrollment(course: str):
+    print(f'You are now enrolled in {course}.',)
+    print()
+
+
