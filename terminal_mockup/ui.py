@@ -13,7 +13,7 @@ def start_display() -> None:
     print('Log In (^C to exit)')
 
 
-def prompt_login() -> tuple[str, str]:
+def prompt_login() -> "tuple[str, str]":
     """Prompts the user to enter their username and password and returns them"""
     try:
         username = input('username: ')
@@ -30,7 +30,7 @@ def display_invalid_login() -> None:
     print('Invalid username or password.')
 
 
-def display_courses(courses: list[str]) -> None:
+def display_courses(courses: "list[str]") -> None:
     """Displays the input list of courses"""
     print('Courses:')
     for i in range(len(courses)):
@@ -38,7 +38,7 @@ def display_courses(courses: list[str]) -> None:
     print()
 
 
-def select_course(courses: list[str]) -> str:
+def select_course(courses: "list[str]") -> str:
     """TODO: docstring"""
     try:
         choice_input = input(f'Choose a course to enroll in (1-{len(courses)}, ^C to exit): ')
@@ -59,5 +59,4 @@ def select_course(courses: list[str]) -> str:
 def display_new_enrollment(course: str):
     print(f'You are now enrolled in {course}.',)
     print()
-
 
