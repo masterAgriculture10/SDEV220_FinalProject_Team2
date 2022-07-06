@@ -3,6 +3,7 @@ File containing all the logic for the enroller app
 """
 
 import enroller.ui as ui
+from enroller.classes import Course
 
 
 def login() -> str:
@@ -30,12 +31,17 @@ def authenticate(username: str, password: str) -> bool:
         return False
 
 
-def select_courses() -> None:
+def select_courses(username: str) -> None:
     courses = [
-        'SDEV 140',
-        'SDEV 220',
-        'ABCD 123',
-    ] # TODO: this will be a list of objects later
+        Course(name='SDEV 140', instructor='John Bean', location='Nepal', 
+            start_time='11:00 AM', end_time='1:30 PM', days={'Tuesday', 'Friday'}),
+
+        Course(name='SDEV 220', instructor='Feihong Liu', location='Gary', 
+            start_time='5:00 PM', end_time='6:30 PM', days={'Monday', 'Wednesday'}),
+
+        Course(name='ABCD 123', instructor='Sarah Evansborough', location='Evansborough', 
+            start_time='7:30 PM', end_time='10:00 PM', days={'Tuesday', 'Thursday'}),
+    ]
 
     while True:
         ui.display_courses(courses)

@@ -15,7 +15,7 @@ import enroller.logic as logic
 def main() -> None:
     ui.start_display()
     username = logic.login()
-    logic.select_courses()
+    logic.select_courses(username)
 
 
 if __name__ == '__main__':

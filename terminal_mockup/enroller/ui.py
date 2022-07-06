@@ -4,6 +4,8 @@ Terminal UI functionality for the terminal mockup
 
 from sys import exit
 
+from enroller.classes import Course
+
 
 def start_display() -> None:
     """Displays the initial state of the application"""
@@ -19,7 +21,7 @@ def prompt_login() -> "tuple[str, str]":
         username = input('username: ')
         password = input('password: ')
     except KeyboardInterrupt:
-        print('\nexiting...')
+        print('^C\nexiting...')
         exit()
     
     print()
@@ -30,33 +32,35 @@ def display_invalid_login() -> None:
     print('Invalid username or password.')
 
 
-def display_courses(courses: "list[str]") -> None:
+def display_courses(courses: "list[Course]") -> None:
     """Displays the input list of courses"""
     print('Courses:')
     for i in range(len(courses)):
-        print(f'({i+1})', courses[i])
+        print(f'({i+1})', courses[i].name)
     print()
 
 
-def select_course(courses: "list[str]") -> str:
+def select_course(courses: "list[Course]") -> Course:
     """TODO: docstring"""
-    try:
-        choice_input = input(f'Choose a course to enroll in (1-{len(courses)}, ^C to exit): ')
-    except KeyboardInterrupt:
-        print('\nexiting...')
-        exit()
-    
-    try:
-        course_num = int(choice_input)
-        if not 1 <= course_num <= len(courses):
-            raise ValueError
-        return courses[course_num-1]
+
+    while True:
+        try:
+            choice_input = input(f'Choose a course to enroll in (1-{len(courses)}, ^C to exit): ')
+        except KeyboardInterrupt:
+            print('^C\nexiting...')
+            exit()
         
-    except ValueError:
-        print('ValueError')
+        try:
+            course_num = int(choice_input)
+            if not 1 <= course_num <= len(courses):
+                raise ValueError
+            return courses[course_num-1]
+            
+        except ValueError:
+            print(f'Value must be between 1 and {len(courses)}.')
 
 
-def display_new_enrollment(course: str):
-    print(f'You are now enrolled in {course}.',)
+def display_new_enrollment(course: Course):
+    print(f'You are now enrolled in {course.name}.',)
     print()
 
