@@ -1,18 +1,8 @@
 """
-Terminal Proof-of-Concept
-
-This program is meant to contain the functionality of the GUI app we are building 
-without worrying too much about the graphical part. It will allow us figure out the backend 
-implementation before (or as) we make the front end.
+File containing all the logic for the enroller app
 """
 
-import ui
-
-
-def main() -> None:
-    ui.start_display()
-    username = login()
-    select_courses()
+import enroller.ui as ui
 
 
 def login() -> str:
@@ -52,6 +42,3 @@ def select_courses() -> None:
         selected = ui.select_course(courses)
         ui.display_new_enrollment(selected)
 
-
-if __name__ == '__main__':
-    main()
