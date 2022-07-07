@@ -3,6 +3,7 @@ Terminal UI functionality for the terminal mockup
 """
 
 from sys import exit
+from typing import List, Tuple
 
 from enroller.classes import Course
 
@@ -15,7 +16,7 @@ def start_display() -> None:
     print('Log In (^C to exit)')
 
 
-def prompt_login() -> "tuple[str, str]":
+def prompt_login() -> Tuple[str, str]:
     """Prompts the user to enter their username and password and returns them"""
     try:
         username = input('username: ')
@@ -32,7 +33,7 @@ def display_invalid_login() -> None:
     print('Invalid username or password.')
 
 
-def display_courses(courses: "list[Course]") -> None:
+def display_courses(courses: List[Course]) -> None:
     """Displays the input list of courses"""
     print('Courses:')
     for i in range(len(courses)):
@@ -40,7 +41,7 @@ def display_courses(courses: "list[Course]") -> None:
     print()
 
 
-def select_course(courses: "list[Course]") -> Course:
+def select_course(courses: List[Course]) -> Course:
     """TODO: docstring"""
 
     while True:

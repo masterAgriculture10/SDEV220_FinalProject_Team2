@@ -5,6 +5,7 @@ These classes are used in the enroller application for the SDEV 220 final projec
 from dataclasses import dataclass
 from enum import Enum
 from datetime import time
+from typing import Set
 
 
 class Day(Enum):
@@ -19,6 +20,6 @@ class Course:
     location: str
     start_time: time
     end_time: time
-    days: "set[Day]"
+    days: Set[Day]
 
 

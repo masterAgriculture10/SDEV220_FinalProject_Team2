@@ -3,11 +3,12 @@ File containing all the logic for the enroller app
 """
 
 from datetime import time
+from typing import Dict, List
 
 from enroller.classes import Course, Day
 
 
-def get_users() -> 'dict[str, str]':
+def get_users() -> Dict[str, str]:
     return {
         'skywalker1': 'your_father',
         'artwodeetwo': 'ceethreepeeoh',
@@ -16,7 +17,7 @@ def get_users() -> 'dict[str, str]':
     }
 
 
-def get_courses() -> 'list[Course]':
+def get_courses() -> List[Course]:
     return [
         Course(name='SDEV 140', instructor='John Bean', location='Nepal', 
             start_time=time(11, 00), end_time=time(13, 30), days={Day.TUE, Day.FRI}),

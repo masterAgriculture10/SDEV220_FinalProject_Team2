@@ -8,6 +8,8 @@ implementation before (or as) we make the front end.
 This is the entry point for the program.
 """
 
+from typing import Dict
+
 import enroller.terminal_io as io
 import enroller.resources as resources
 
@@ -32,7 +34,7 @@ def main() -> None:
         io.display_new_enrollment(selected)
 
 
-def authenticate(users: 'dict[str, str]', username: str, password: str) -> bool:
+def authenticate(users: Dict[str, str], username: str, password: str) -> bool:
     """Determines whether the username-password pair appear in the users dictionary together"""
     try:
         return users[username] == password
