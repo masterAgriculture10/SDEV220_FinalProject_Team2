@@ -1,12 +1,14 @@
 # SDEV 220 Team 2 Final Project
+Authors: Yahya Alrobaie, Gunnar Dahl, Alvin Hampton, Shanika Person
 
 ### Purpose 
-To allow students to view and enroll in college courses
+To allow users to view and enroll in college courses
 
-### Users
-Students and teachers of some university
+### Userbase 
+Students of some university
 
-### Features
-- Students sign in, view classes, choose a class to request enrollment in
-- Teachers sign in, view enrollment requests, confirm/deny requests
-- Gui using tkinter
+## Features
+- Login window that authenticates users
+- Course tab that allows the user to view and select courses to enroll in
+- Schedule tab that allows the user to view the courses they are enrolled in
+- Each user's schedule is persistant across sessions
