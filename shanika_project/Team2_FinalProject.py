@@ -14,7 +14,6 @@ Features: Sign in page ['UserName', 'PassWord']
           Select course for enrollment
 """
 
-import random
 import tkinter as tk
 
 window = tk.Tk()
