@@ -10,9 +10,7 @@ pin is:   0000
 """
 
 
-from cgitb import text
 import tkinter as tk
-from PIL import ImageTk, Image
 import time
 
 
@@ -73,7 +71,6 @@ class StartPage(tk.Frame):
         #my_lable.pack()
 
    
-        self.controller.iconphoto(False, ImageTk.PhotoImage(file='/Users/yahyaalrobaie/Documents/Python IDE/Final_ATM2/atm.png'))
 # Creat a function to clear the entries Widget conten
         def clear_text():
             user_entry_Box.delete(0, tk.END)
@@ -146,12 +143,6 @@ class StartPage(tk.Frame):
 # Creat a Bottom frame to display the time and the user pin.
         bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
         bottom_frame.pack(fill='x',side='bottom')
-
-#++++++++++++++++++++++++++++++++
-        card_photo = tk.PhotoImage(file='creditcard1.png')
-        card_label = tk.Label(bottom_frame,image=card_photo)
-        card_label.pack(side='left')
-        card_label.image = card_photo
 
 #+++++++++++++++++++++++++++++++++
 # Creat a time function to display the current time.

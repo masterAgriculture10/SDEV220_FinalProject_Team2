@@ -33,7 +33,7 @@ canvas = tk.Canvas(window, width = "300", height = "200")
 canvas.grid(columnspan = 3)
 
 #Logo
-logo = tk.PhotoImage(file = "team.png")
+logo = tk.PhotoImage(file = "shanika_project/team.png")
 small = logo.subsample(1,3)
 label = tk.Label(window, image = small)
 label.grid(column=0, row=0)

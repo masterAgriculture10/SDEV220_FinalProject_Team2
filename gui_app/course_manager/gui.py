@@ -1,23 +1,12 @@
 """
-ATM
-05/16/2022
-version 3.0
-1.This program will do what the ATM  does, it will verify the user validity through the username and password. 
-2.Give the user several options, which are 1.Deposit 2.Withdrawal 3.Balance Inquiry  4.Log Out.
-Ckeck if  they try to withdraw more money than there is, a warning will be given to the customer. 
-username is :yahya 
-pin is:   0000
+Tkinter GUI stuff
 """
 
-from cgitb import text
 import tkinter as tk
-from PIL import ImageTk, Image
-import time
 
 
 database = {"yahya": "1111", "gunnar": "2222", "alvin": "3333", "shanika": "4444"}
-print(database)
-
+print(f'account details: {database}')
 
 
 class SampleApp(tk.Tk):
@@ -327,9 +316,3 @@ class Sdev220Page(tk.Frame):
         # Creat a Bottom frame to display the time.
         bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
         bottom_frame.pack(fill='x',side='bottom')
-
-#++++++++++++++++++++++++++++++
-# to display everything
-if __name__ == "__main__":
-    app = SampleApp()
-    app.mainloop()
