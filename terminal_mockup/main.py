@@ -6,40 +6,21 @@ without worrying too much about the graphical part. It will allow us figure out 
 implementation before (or as) we make the front end.
 
 This is the entry point for the program.
+
+Commands: 
+courses
+enroll <course name>
+unenroll <course name>
+schedule
+exit
 """
 
-from typing import Dict
-
-import enroller.terminal_io as io
-import enroller.resources as resources
+from enroller.terminal_io import do_terminal_program
 
 
 def main() -> None:
-    """Runs the terminal app"""
-
-    # login
-    io.start_display()
-    users = resources.get_users()
-    username, password = io.prompt_login()
-
-    while not authenticate(users, username, password):
-        io.display_invalid_login()
-        username, password = io.prompt_login()
-
-    # course select
-    courses = resources.get_courses()
-    while True:
-        io.display_courses(courses)
-        selected = io.select_course(courses)
-        io.display_new_enrollment(selected)
-
-
-def authenticate(users: Dict[str, str], username: str, password: str) -> bool:
-    """Determines whether the username-password pair appear in the users dictionary together"""
-    try:
-        return users[username] == password
-    except KeyError:
-        return False
+    """Starts the terminal app"""
+    do_terminal_program()
 
 
 if __name__ == '__main__':

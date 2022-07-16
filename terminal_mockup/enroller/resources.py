@@ -3,18 +3,18 @@ File containing all the logic for the enroller app
 """
 
 from datetime import time
-from typing import Dict, List
+from typing import List
 
-from enroller.classes import Course, Day
+from enroller.classes import Course, Day, Student
 
 
-def get_users() -> Dict[str, str]:
-    return {
-        'skywalker1': 'your_father',
-        'artwodeetwo': 'ceethreepeeoh',
-        'palpatino': 'THE_$ENATE',
-        'yahya': '0000',
-    }
+def get_users() -> List[Student]:
+    return [
+        Student('skywalker1', 'your_father'),
+        Student('artwodeetwo', 'ceethreepeeoh'),
+        Student('palpatino', 'THE_$ENATE'),
+        Student('yahya', '0000'),
+    ]
 
 
 def get_courses() -> List[Course]:

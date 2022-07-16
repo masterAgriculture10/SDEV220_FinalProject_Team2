@@ -7,7 +7,6 @@ from enum import Enum
 from datetime import time
 import itertools
 from typing import Optional, Set, Union
-from typing_extensions import Self
 
 
 class Day(Enum):
@@ -25,7 +24,7 @@ class Course:
     end_time: time
     days: Set[Union[Day, int]]
 
-    def overlaps_with(self, other:Self) -> bool:
+    def overlaps_with(self, other:'Course') -> bool:
         """whether another course's time and day overlap with this one's"""
         if len(self.days.intersection(other.days)) == 0:
             return False
@@ -56,6 +55,6 @@ class Student:
     """Contains the student's account information as well as the schedule they have made"""
     username: str
     password: str
-    schedule: Schedule
+    schedule: Schedule = Schedule()
 
 
