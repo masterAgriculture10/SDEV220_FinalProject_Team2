@@ -9,16 +9,17 @@ This is the entry point for the program.
 
 Commands: 
 courses
-enroll <course name>
-unenroll <course name>
+[un]enroll <course name>
 schedule
+help
 exit
 """
 
+from typing import NoReturn
 from enroller.terminal_io import do_terminal_program
 
 
-def main() -> None:
+def main() -> NoReturn:
     """Starts the terminal app"""
     do_terminal_program()
 

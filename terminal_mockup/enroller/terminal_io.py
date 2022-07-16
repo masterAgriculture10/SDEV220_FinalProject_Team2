@@ -3,7 +3,7 @@ Terminal UI functionality and control loop for the terminal mockup
 """
 
 from sys import exit
-from typing import List, Optional, Tuple
+from typing import List, NoReturn, Optional, Tuple, Union
 
 from enroller.classes import Course, Schedule, Student
 import enroller.resources as resources
@@ -24,10 +24,9 @@ def do_terminal_program():
 
     # course select
     courses = resources.get_courses()
+    display_welcome()
     while True:
-        display_courses(courses)
-        selected = select_course(courses)
-        display_new_enrollment(selected)
+        interpret_command(prompt_command(), user, courses)
     
 
 def find_user(users: List[Student], username: str, password: str) -> Optional[Student]:
@@ -37,17 +36,43 @@ def find_user(users: List[Student], username: str, password: str) -> Optional[St
             return user
 
 
+def interpret_command(command_text: str, student: Student, course_list: List[Course]) -> Union[None, NoReturn]:
+    """Takes a command string, parses it, and performs it"""
+    if command_text.strip() == '': 
+        return
+    
+    command, *arg = command_text.strip().lower().split(maxsplit=1)
+    
+    if command == 'courses':
+        display_courses(course_list)
+    elif command == 'enroll':
+        raise NotImplementedError
+    elif command == 'unenroll':
+        raise NotImplementedError
+    elif command == 'schedule':
+        raise NotImplementedError
+    elif command == 'help':
+        print("commands: 'courses', '[un]enroll <course name>', 'schedule', 'help', 'exit'")
+    elif command == 'exit':
+        print('exiting...')
+        exit()
+    else:
+        print("invalid command, enter 'help' for a list of commands")
+    
+    print()
+
+
 # display functions start here
 
 def start_display() -> None:
     """Displays the initial state of the application"""
     print('--------------------')
-    print('| Student Enroller |')
+    print('| STUDENT ENROLLER |')
     print('--------------------')
-    print('Log In (^C to exit)')
+    print('log in')
 
 
-def prompt_login() -> Tuple[str, str]:
+def prompt_login() -> Union[Tuple[str, str], NoReturn]:
     """Prompts the user to enter their username and password and returns them"""
     try:
         username = input('username: ')
@@ -61,38 +86,29 @@ def prompt_login() -> Tuple[str, str]:
 
 
 def display_invalid_login() -> None:
-    print('Invalid username or password.')
+    print('invalid username or password')
+
+
+def display_welcome() -> None:
+    print("'exit' to end the program, 'help' for more information")
+
+
+def prompt_command() -> Union[str, NoReturn]:
+    """Prompts the user for a command and returns it"""
+    try:
+        return input('> ')
+    except KeyboardInterrupt:
+        print('^C\nexiting...')
+        exit()
 
 
 def display_courses(courses: List[Course]) -> None:
-    """Displays the input list of courses"""
-    print('Courses:')
-    for i in range(len(courses)):
-        print(f'({i+1})', courses[i].name)
-    print()
+    """Displays the input list of courses
+    TODO: display days correctly"""
+    print(f'_{"Name":_<20}_|_{"Instructor":_<20}_|_{"Location":_<20}_|_'
+          f'{"Starts":_<8}_|_{"Ends":_<8}_|_{"Days":_<20}')
+    for c in courses:
+        print(f' {c.name:<20} | {c.instructor:<20} | {c.location:<20} | '
+              f'{c.start_time.isoformat(timespec="minutes"):>5}    | {c.end_time.isoformat(timespec="minutes"):>5}    | {"-unavailable-":<20}')
 
-
-def select_course(courses: List[Course]) -> Course:
-    """TODO: docstring"""
-
-    while True:
-        try:
-            choice_input = input(f'Choose a course to enroll in (1-{len(courses)}, ^C to exit): ')
-        except KeyboardInterrupt:
-            print('^C\nexiting...')
-            exit()
-        
-        try:
-            course_num = int(choice_input)
-            if not 1 <= course_num <= len(courses):
-                raise ValueError
-            return courses[course_num-1]
-            
-        except ValueError:
-            print(f'Value must be between 1 and {len(courses)}.')
-
-
-def display_new_enrollment(course: Course):
-    print(f'You are now enrolled in {course.name}.')
-    print()
 
