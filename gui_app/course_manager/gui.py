@@ -67,7 +67,7 @@ class StartPage(tk.Frame):
 
         header_label2 = tk.Label(self, text="Login to Your Account", foreground='White', background='#336699', font=('bold', 50))
         header_label2.pack(pady=30)
-# Creat a space lable 
+# Creat a space lable 003366
         space_label = tk.Label(self, height=5, background='#003366')
         space_label.pack()
 
@@ -209,34 +209,72 @@ class Sdev153Page (tk.Frame):
         self.controller=controller
 #+++++++++++++++++++++++++++++
 # Header Labels for the  Header title of the WithdrawPage page
-        header_label5 = tk.Label(self, text="Schedules", foreground='White', background='#660066', font=('bold', 50))
+        header_label5 = tk.Label(self, text="SDEV153", foreground='White', background='#660066', font=('bold', 50))
         header_label5.pack()
+
+        selection_label2= tk.Label(self, text="Select a class to enroll in:", fg='white', background='#003366' ,anchor='w')
+        selection_label2.pack(fill='x')
 
         button_frame = tk.Frame(self, background='#336699' )
         button_frame.pack(fill='both', expand=True)
 
-# Creat a Bottom to display the Sdev153 schedules options.
+         # +++++++++++++++++++++++++++++
+# Listbox!
+# SINGLE, BROWSE, MULTIPLE, EXTENDED
 
-        twenty_button = tk.Button(button_frame, text='20', command=exit, relief='raised', borderwidth=4,width=54, height=3)
-        twenty_button.grid(row=0,column=0)
+        bolded = font.Font(weight='bold')
+        my_sdev153_listbox = tk.Listbox(button_frame,font=bolded, relief='raised', borderwidth=4, width=70,height=4, selectmode=tk.SINGLE)
+        my_sdev153_listbox.grid(row=0,column=0)
 
-        forty_button = tk.Button(button_frame, text='40', command=exit, relief='raised', borderwidth=4,width=54, height=3)
-        forty_button.grid(row=1,column=0) 
+# Add list of items
+        my_sdev153_list = ["SDVE153 - Anywhere - Keneisha E - M,TH 9:00am-1:00pm - FortWayne - 16Wks - 3 credits", 
+                   "SDVE153 - Online - Milford Hutsell - M,W 6:00pm-8:50pm - Columbus - 2nd 8Wks - 3credits", 
+                   "SDVE153 - Traditional - Mike Gorsline - m,w 2:00pm-5:00pm - N Meridian - 1st 8Wks - 3credits"]
+        
+        for sdev153_itme in my_sdev153_list:
+            my_sdev153_listbox.insert(tk.END, sdev153_itme)
 
-        sixty_button = tk.Button(button_frame, text='60', command=exit, relief='raised', borderwidth=4,width=54, height=3)
-        sixty_button.grid(row=2,column=0) 
+  
+# Creat an uneroll function
+        def unenroll():
+            my_sdev153_label.config(text='')
+            sdev153_enroll_button['state']= tk.NORMAL
+            sdev153_unenroll_button['state']= tk.DISABLED
+
+
+# Creat an enroll function
+        def enroll():
+            my_sdev153_label.config(text=my_sdev153_listbox.get(ANCHOR))
+            sdev153_enroll_button['state']= tk.DISABLED
+            sdev153_unenroll_button['state']= tk.NORMAL
+
+# Creat a enroll button
+        sdev153_enroll_button = tk.Button(button_frame, text="Enroll", relief='raised',command=enroll, borderwidth=3,width=15, height=3)
+        sdev153_enroll_button.place(x=3, y=130)
+
+# Creat a uneroll button
+        sdev153_unenroll_button = tk.Button(button_frame, text="Uneroll",relief='raised', command=unenroll,borderwidth=3,width=15, height=3,)
+        sdev153_unenroll_button.place(x=179, y=130)
+        sdev153_unenroll_button['state']= tk.DISABLED
+
+# Creat a label to display the enrolled class
+        global my_sdev153_label
+        my_sdev153_label = tk.Label(button_frame, text='Enrolled class will appear here ', background='#333333', borderwidth=5,relief='raised',width=70,height=2,)
+        my_sdev153_label.place(x=3, y=80)
 
  # ++++++++++++++++++++++++++++
 # Creat a Back function
         def back():
             controller.show_frame('CoursesPage')
 # Creat a Back button
-        back_buttonn = tk.Button(button_frame, text="Back", command=back, relief='raised', width=10)
-        back_buttonn.grid(row=4,column=0, columnspan=2)
+        back_buttonn = tk.Button(button_frame, text="Back", command=back, relief='raised', borderwidth=3,width=15, height=3)
+        back_buttonn.place(x=355, y=130)
 #++++++++++++++++++++++
         # Creat a Bottom frame to display the time.
         bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
         bottom_frame.pack(fill='x',side='bottom')
+
+
 
 
 #++++++++++++++++++++++++++
@@ -248,35 +286,71 @@ class Sdev140Page (tk.Frame):
         self.controller=controller
 #+++++++++++++++++++++++++++++
 # Header Labels for the  Header title of the DepositPage page
-        header_label7 = tk.Label(self, text="Schedules", foreground='White', background='#660066', font=('bold', 50))
+        header_label7 = tk.Label(self, text="SDEV140", foreground='White', background='#660066', font=('bold', 50))
         header_label7.pack()
+
+        selection_label3= tk.Label(self, text="Select a class to enroll in:", fg='white', background='#003366' ,anchor='w')
+        selection_label3.pack(fill='x')
 
         button_frame = tk.Frame(self, background='#336699' )
         button_frame.pack(fill='both', expand=True)
 
+ # +++++++++++++++++++++++++++++
+# Listbox!
+# SINGLE, BROWSE, MULTIPLE, EXTENDED
 
-# Creat a Bottom to display the Sdev153 schedules options.
+        bolded = font.Font(weight='bold')
+        my_sdev140_listbox = tk.Listbox(button_frame,font=bolded, relief='raised', borderwidth=4, width=70,height=4, selectmode=tk.SINGLE)
+        my_sdev140_listbox.grid(row=0,column=0)
 
-        twentyy_button = tk.Button(button_frame, text='20', command=exit, relief='raised', borderwidth=4,width=54, height=3)
-        twentyy_button.grid(row=0,column=0)
+# Add list of items
+        my_sdev140_list = ["SDVE140 - Anywhere - Steve Carver - M,W 1:00pm-4:50pm - FortWayne - 16Wks - 3 credits", 
+                   "SDVE140 - Online - Jon Jon - M,W 6:00pm-8:50pm - Columbus - 16Wks - 3credits", 
+                   "SDVE140 - Virtual - Alf Sanford - F,M 1:00pm-4:00pm - N Meridian - 8Wks - 3credits"]
+        
+        for sdev140_itme in my_sdev140_list:
+            my_sdev140_listbox.insert(tk.END, sdev140_itme)
 
-        fortyy_button = tk.Button(button_frame, text='40', command=exit, relief='raised', borderwidth=4,width=54, height=3)
-        fortyy_button.grid(row=1,column=0) 
+  
+# Creat an uneroll function
+        def unenroll():
+            my_sdev140_label.config(text='')
+            sdev140_enroll_button['state']= tk.NORMAL
+            sdev140_unenroll_button['state']= tk.DISABLED
 
-        sixtyy_button = tk.Button(button_frame, text='60', command=exit, relief='raised', borderwidth=4,width=54, height=3)
-        sixtyy_button.grid(row=2,column=0) 
+
+# Creat an enroll function
+        def enroll():
+            my_sdev140_label.config(text=my_sdev140_listbox.get(ANCHOR))
+            sdev140_enroll_button['state']= tk.DISABLED
+            sdev140_unenroll_button['state']= tk.NORMAL
+
+# Creat a enroll button
+        sdev140_enroll_button = tk.Button(button_frame, text="Enroll", relief='raised',command=enroll, borderwidth=3,width=15, height=3)
+        sdev140_enroll_button.place(x=3, y=130)
+
+# Creat a uneroll button
+        sdev140_unenroll_button = tk.Button(button_frame, text="Uneroll",relief='raised', command=unenroll,borderwidth=3,width=15, height=3,)
+        sdev140_unenroll_button.place(x=179, y=130)
+        sdev140_unenroll_button['state']= tk.DISABLED
+
+# Creat a label to display the enrolled class
+        global my_sdev140_label
+        my_sdev140_label = tk.Label(button_frame, text='Enrolled class will appear here ', background='#333333', borderwidth=5,relief='raised',width=70,height=2,)
+        my_sdev140_label.place(x=3, y=80)
 
  # ++++++++++++++++++++++++++++
 # Creat a Back function
         def back():
             controller.show_frame('CoursesPage')
 # Creat a Back button
-        back_buttonn = tk.Button(button_frame, text="Back", command=back, relief='raised', width=10)
-        back_buttonn.grid(row=4,column=0, columnspan=2)
+        back_buttonn = tk.Button(button_frame, text="Back", command=back, relief='raised', borderwidth=3,width=15, height=3)
+        back_buttonn.place(x=355, y=130)
 #++++++++++++++++++++++
         # Creat a Bottom frame to display the time.
         bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
         bottom_frame.pack(fill='x',side='bottom')
+
 
 
 # Creat class to the class BalancePage window( TransactionPage: Deposit, Withdraw, Balance,Exit)
@@ -286,33 +360,74 @@ class Sdev220Page(tk.Frame):
         self.controller=controller
 
 #+++++++++++++++++++++++++++++
-# Header Labels for the  Header title of the BalancePage page
-        header_label8 = tk.Label(self, text="Schedules", foreground='White', background='#660066', font=('bold', 50))
+# Header Labels for the  Header title of the Sdev220Page page
+        header_label8 = tk.Label(self, text="SDEV220", foreground='White', background='#660066', font=('bold', 50))
         header_label8.pack()
 
-# creat a lable to design the deposit page with two colores
-        button_frame = tk.Frame(self, background='#336699')
+        selection_label4= tk.Label(self, text="Select a class to enroll in:", fg='white', background='#003366' ,anchor='w')
+        selection_label4.pack(fill='x')
+
+# creat a lable to design the Sdev220Page page with two colores
+        button_frame = tk.Frame(self, background='#003366')
         button_frame.pack(fill='both', expand=True)
 
-# Creat a Bottom to display the Sdev153 schedules options.
+# +++++++++++++++++++++++++++++
+# Listbox!
+# SINGLE, BROWSE, MULTIPLE, EXTENDED
 
-        twentyyy_button = tk.Button(button_frame, text='20', command=exit, relief='raised', borderwidth=4,width=54, height=3)
-        twentyyy_button.grid(row=0,column=0)
+        bolded = font.Font(weight='bold')
+        my_sdev220_list_listbox = tk.Listbox(button_frame,font=bolded, relief='raised', borderwidth=4, width=70,height=4, selectmode=tk.SINGLE)
+        my_sdev220_list_listbox.grid(row=0,column=0)
 
-        fortyyy_button = tk.Button(button_frame, text='40', command=exit, relief='raised', borderwidth=4,width=54, height=3)
-        fortyyy_button.grid(row=1,column=0) 
+# Add list of items
+        my_sdev220_list = ["SDVE220 - Virtual - Feihong Liu - M,W 3:00pm-5:50pm - FortWayne - 8Wks - 3credit", 
+                   "SDVE220 - Online - Tim Tim - TH,M 6:00pm-8:50pm - Columbus - 16Wks - 3credit", 
+                   "SDVE220 - Virtual - Tom Tom - TU,W 1:00pm-4:00pm - N Meridian - 8Wks - 3credit"]
+        
+        for sdev220_itme in my_sdev220_list :
+            my_sdev220_list_listbox.insert(tk.END, sdev220_itme)
 
-        sixtyyy_button = tk.Button(button_frame, text='60', command=exit, relief='raised', borderwidth=4,width=54, height=3)
-        sixtyyy_button.grid(row=2,column=0) 
+  
+# Creat an uneroll function
+        def unenroll():
+            my_sdev220_label.config(text='')
+            sdev220_enroll_button['state']= tk.NORMAL
+            sdev220_unenroll_button['state']= tk.DISABLED
+
+
+# Creat an enroll function
+        def enroll():
+            my_sdev220_label.config(text=my_sdev220_list_listbox.get(ANCHOR))
+            sdev220_enroll_button['state']= tk.DISABLED
+            sdev220_unenroll_button['state']= tk.NORMAL
+
+# Creat a enroll button
+        sdev220_enroll_button = tk.Button(button_frame, text="Enroll", relief='raised',command=enroll, borderwidth=3,width=15, height=3)
+        sdev220_enroll_button.place(x=3, y=130)
+
+# Creat a uneroll button
+        sdev220_unenroll_button = tk.Button(button_frame, text="Uneroll",relief='raised', command=unenroll,borderwidth=3,width=15, height=3,)
+        sdev220_unenroll_button.place(x=179, y=130)
+        sdev220_unenroll_button['state']= tk.DISABLED
+
+# Creat a label to display the enrolled class
+        global my_sdev220_label
+        my_sdev220_label = tk.Label(button_frame, text='Enrolled class will appear here ', background='#333333', borderwidth=5,relief='raised',width=70,height=2,)
+        my_sdev220_label.place(x=3, y=80)
 
  # ++++++++++++++++++++++++++++
 # Creat a Back function
         def back():
             controller.show_frame('CoursesPage')
 # Creat a Back button
-        back_buttonn = tk.Button(button_frame, text="Back", command=back, relief='raised', width=10)
-        back_buttonn.grid(row=4,column=0, columnspan=2)
+        back_buttonn = tk.Button(button_frame, text="Back", command=back, relief='raised', borderwidth=3,width=15, height=3)
+        back_buttonn.place(x=355, y=130)
 #++++++++++++++++++++++
         # Creat a Bottom frame to display the time.
         bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
         bottom_frame.pack(fill='x',side='bottom')
+
+#++++++++++++++++++++++++++++++
+# to display everything
+if __name__ == "__main__":
+    print('please run the main.py file instead')
