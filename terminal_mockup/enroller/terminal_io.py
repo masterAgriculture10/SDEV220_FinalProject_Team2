@@ -51,6 +51,8 @@ def interpret_command(command_text: str, student: Student, course_list: List[Cou
         raise NotImplementedError
     elif command == 'schedule':
         raise NotImplementedError
+    elif command == 'save':
+        raise NotImplementedError
     elif command == 'help':
         print("commands: 'courses', '[un]enroll <course name>', 'schedule', 'help', 'exit'")
     elif command == 'exit':
@@ -105,10 +107,9 @@ def prompt_command() -> Union[str, NoReturn]:
 def display_courses(courses: List[Course]) -> None:
     """Displays the input list of courses
     TODO: display days correctly"""
-    print(f'_{"Name":_<20}_|_{"Instructor":_<20}_|_{"Location":_<20}_|_'
-          f'{"Starts":_<8}_|_{"Ends":_<8}_|_{"Days":_<20}')
+    print(f'_{"Name":_<15}_|_{"Instructor":_<15}_|_{"Location":_<15}_|_'
+          f'{"Starts":_<8}_|_{"Ends":_<8}_|_{"Days":_<15}')
     for c in courses:
-        print(f' {c.name:<20} | {c.instructor:<20} | {c.location:<20} | '
-              f'{c.start_time.isoformat(timespec="minutes"):>5}    | {c.end_time.isoformat(timespec="minutes"):>5}    | {"-unavailable-":<20}')
-
+        print(f' {c.name:<15} | {c.instructor:<15} | {c.location:<15} | '
+              f'{c.start_time.isoformat(timespec="minutes"):>5}    | {c.end_time.isoformat(timespec="minutes"):>5}    | {"-unavailable-":<15}')
 
