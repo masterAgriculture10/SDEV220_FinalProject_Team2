@@ -47,171 +47,97 @@ class CourseApp(tk.Tk):
                 frame=self.frames[page_name]
                 frame.tkraise()
 
-#+++++++++++++++++++++++++
-# the StartPage class which hold the login screen
+
+
 class StartPage(tk.Frame):
-    def __init__(self, parent, controller):
-# the Frame that control everything we add th the page
-        tk.Frame.__init__(self, parent, background='#003366')
-        self.controller=controller
-        
-        self.controller.title('SDEV Courses Registration')
-# options for the screen size normal, iconic, withdrawn, or zoomed
-        self.controller.state('normal')
-
-# Creat a function to clear the entries Widget conten
-        def clear_text():
-            user_entry_Box.delete(0, tk.END)
-            password_entry_Box.delete(0, tk.END)
-
-
-#+++++++++++++++++++++++++++++
-# Header Labels for the  Header title of the login page
-        header_label1 = tk.Label(self, text="SDEV Courses Registration", foreground='White', background='#336699', font=('bold', 50))
-        header_label1.pack()
-
-        header_label2 = tk.Label(self, text="Login to Your Account", foreground='White', background='#336699', font=('bold', 50))
-        header_label2.pack(pady=30)
-# Creat a space lable 003366
-        space_label = tk.Label(self, height=5, background='#003366')
-        space_label.pack()
-
-# ++++++++++++++++++++++++++++
-# Creat a password Label to ask the user to enter the password
-        user_label = tk.Label(self, text='Enter your Username:', font=15, background='#003366')
-        user_label.place(x=8,y=180)
-
-
-# Creat a entery box, to put the password
-        user = tk.StringVar()      
-        user_entry_Box = tk.Entry(self, textvariable=user)
-        user_entry_Box.focus_set()
-        user_entry_Box.place(x=170, y=180)
-
-
-#++++++++++++++++++++++++++++ #336699
-# Creat a password Label to ask the user to enter the password 
-        password_label = tk.Label(self, text='Enter your password:', font=15, background='#003366')
-        password_label.place(x=8,y=210) 
-
-# Creat a entery box, to put the password
-        password = tk.StringVar()      
-        password_entry_Box = tk.Entry(self, textvariable=password)
-        password_entry_Box.place(x=170,y=210)
-
-# Creat a login function to check the user validate the user login
-
-        def login_check():
-            #global database
-            if user.get() in database :
-                if database[user.get()] == password.get() :
-                        password.set('')  
-                        user.set('')
-                        incorrect_login_label['text']=''
-                        controller.show_frame('CoursesPage')
-                else:
-                        incorrect_login_label['text']='Incorrect username or password'
-            elif password.get() == '' and user.get() == '':
-                    incorrect_login_label['text']='Enter your username and password'
-            else:
-                incorrect_login_label['text']='Incorrect username or password'
-
-        
-# creat a Enter Button
-        enter_button = tk.Button(self, text='Enter', command=login_check, relief='flat', width=10, )
-        enter_button.place(x=10, y=250)
-
-# creat a Exit Button to quit the program
-        button_quit = tk.Button(self, text="Exit", command=self.quit,relief='flat', width=10,)
-        button_quit.place(x=180, y=250)
-# creat a Clear Button to Clear the login text
-        button_clear = tk.Button(self, text="Clear", command=clear_text,relief='flat', width=10,)
-        button_clear.place(x=350, y=250)
-
-
-# Creat a display message when the user enter the incorrect login 
-        incorrect_login_label = tk.Label(self, text="", background='#336699', foreground='#990033', font=('bold', 22), anchor='n')
-        incorrect_login_label.pack(fill='both', expand=True)
-
-#+++++++++++++++++++++++++++++++++
-# Creat a Bottom frame to display the time and the user password.
-        bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
-        bottom_frame.pack(fill='x',side='bottom')
-
-#++++++++++++++++++++++++++++++++
-    ##    card_photo = tk.PhotoImage(file='creditcard1.png')
-     # #  card_label = tk.Label(bottom_frame,image=card_photo)
-      ##  card_label.pack(side='left')
-      ##  card_label.image = card_photo
-
-
-
-class CoursesPage(tk.Frame):
+        """A frame that contains the elements of the login screen"""
         def __init__(self, parent, controller):
-                tk.Frame.__init__(self, parent, background='#660066')
+                # the Frame that control everything we add th the page
+                tk.Frame.__init__(self, parent, background='#003366')
                 self.controller=controller
+                
+                self.controller.title('SDEV Courses Registration')
+                # options for the screen size normal, iconic, withdrawn, or zoomed
+                self.controller.state('normal')
 
-                # Creat a Notebook(tabs) for the CoursesPage.
-                my_notebook = ttk.Notebook(self)
-                my_notebook.pack(fill="both",expand=1)
+                # Creat a function to clear the entries Widget conten
+                def clear_text():
+                        user_entry_Box.delete(0, tk.END)
+                        password_entry_Box.delete(0, tk.END)
 
-                # Creat a frames inside the notebook
-                my_frame1 = Frame(my_notebook, bg="#003366")
-                my_frame1.pack(fill="both",expand=1)
 
-                my_frame2 = Frame(my_notebook, bg="green")
-                my_frame2.pack(fill="both", expand=1)
-                my_frame2.destroy
-
-                my_frame3 = Frame(my_notebook,bg="blue")
-                my_frame3.pack(fill="both", expand=1)
-
-                my_notebook.add(my_frame1, text="Courses")
-                my_notebook.add(my_frame2, text="Schedule")
-                my_notebook.add(my_frame3, text= "Logout")
-            
-            
                 #+++++++++++++++++++++++++++++
-                # Header Labels for the  Header title of the TransactionPage page
-                header_label3 = tk.Label(my_frame1, text="IVY SDVE Courses", foreground='White', background='#043927', font=('bold', 50))
-                header_label3.pack(fill="both", expand=1)
+                # Header Labels for the  Header title of the login page
+                header_label1 = tk.Label(self, text="SDEV Courses Registration", foreground='White', background='#336699', font=('bold', 50))
+                header_label1.pack()
 
-                # Header Labels for the  Header title of the TransactionPage page
-                header_label4 = tk.Label(my_frame1, text="Courses", foreground='White', background='#043927', font=('bold', 30))
-                header_label4.pack(fill="both", expand=1)
+                header_label2 = tk.Label(self, text="Login to Your Account", foreground='White', background='#336699', font=('bold', 50))
+                header_label2.pack(pady=30)
+                # Creat a space lable
+                space_label = tk.Label(self, height=5, background='#003366')
+                space_label.pack()
 
-                selection_label= tk.Label(my_frame1, text="Select a course to enroll", fg='white', background='#003366' ,anchor='w')
-                selection_label.pack(fill='x')
 
+                # Creat a password Label to ask the user to enter the password
+                user_label = tk.Label(self, text='Enter your Username:', font=15, background='#003366')
+                user_label.place(x=8,y=180)
+
+
+                # Creat a entery box, to put the password
+                user = tk.StringVar()      
+                user_entry_Box = tk.Entry(self, textvariable=user)
+                user_entry_Box.focus_set()
+                user_entry_Box.place(x=170, y=180)
+
+
+                # Creat a password Label to ask the user to enter the password 
+                password_label = tk.Label(self, text='Enter your password:', font=15, background='#003366')
+                password_label.place(x=8,y=210) 
+
+                # Creat a entery box, to put the password
+                password = tk.StringVar()      
+                password_entry_Box = tk.Entry(self, textvariable=password)
+                password_entry_Box.place(x=170,y=210)
+
+                # Creat a login function to check the user validate the user login
+
+                def login_check():
+                #global database
+                        if user.get() in database :
+                                if database[user.get()] == password.get() :
+                                        password.set('')  
+                                        user.set('')
+                                        incorrect_login_label['text']=''
+                                        controller.show_frame('CoursesPage')
+                                else:
+                                        incorrect_login_label['text']='Incorrect username or password'
+                        elif password.get() == '' and user.get() == '':
+                                incorrect_login_label['text']='Enter your username and password'
+                        else:
+                                incorrect_login_label['text']='Incorrect username or password'
 
                 
-                def sdev_153():
-                        controller.show_frame('Sdev153Page')
+                # creat a Enter Button
+                enter_button = tk.Button(self, text='Enter', command=login_check, relief='flat', width=10, )
+                enter_button.place(x=10, y=250)
 
-                withdraw_button = tk.Button(my_frame1, text="SDEV153", command=sdev_153, relief='raised', borderwidth=3, width=25, height=5,)
-                withdraw_button.pack(side="left")
-
-
-                def sdev_140():
-                        controller.show_frame('Sdev140Page')
-
-                deposit_button = tk.Button(my_frame1, text="SDEV140", command=sdev_140, relief='raised', borderwidth=3, width=25, height=5)
-                deposit_button.pack(side="right")
+                # creat a Exit Button to quit the program
+                button_quit = tk.Button(self, text="Exit", command=self.quit,relief='flat', width=10,)
+                button_quit.place(x=180, y=250)
+                # creat a Clear Button to Clear the login text
+                button_clear = tk.Button(self, text="Clear", command=clear_text,relief='flat', width=10,)
+                button_clear.place(x=350, y=250)
 
 
-                def sdev_220():
-                        controller.show_frame('Sdev220Page')
+                # Creat a display message when the user enter the incorrect login 
+                incorrect_login_label = tk.Label(self, text="", background='#336699', foreground='#990033', font=('bold', 22), anchor='n')
+                incorrect_login_label.pack(fill='both', expand=True)
 
-                balance_button = tk.Button(my_frame1, text="SDEV100", command=sdev_220, relief='raised', borderwidth=3, width=25, height=5)
-                balance_button.pack(side="left", fill='x', expand=0)
+                #+++++++++++++++++++++++++++++++++
+                # Creat a Bottom frame to display the time and the user password.
+                bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
+                bottom_frame.pack(fill='x',side='bottom')
 
-
-                # exit
-                def exit():
-                        controller.show_frame('StartPage')
-                
-                exit_button = tk.Button(my_frame1, text="Log Out", command=exit, relief='raised', borderwidth=3,width=25, height=5)
-                exit_button.pack(side="bottom")
 
 
 
@@ -220,6 +146,61 @@ COURSE_HEADING_COLOR = '#660066'
 SELECT_LBL_COLOR = '#003366'
 BACKGROUND_COLOR = '#336699'
 ENROLLED_LBL_COLOR = '#999999'
+COURSES_BACKGROUND_COLOR = '#043927'
+
+
+class CoursesPage(tk.Frame):
+        def __init__(self, parent, controller):
+                tk.Frame.__init__(self, parent, background=COURSE_HEADING_COLOR)
+                self.controller=controller
+
+
+                # create a notebook and its tab frames
+                notebook = ttk.Notebook(self)
+                notebook.pack(fill="both", expand=1)
+
+                courses_tab = Frame(notebook, bg=SELECT_LBL_COLOR)
+                courses_tab.pack(fill="both", expand=1)
+
+                schedule_tab = Frame(notebook, bg="green")
+                schedule_tab.pack(fill="both", expand=1)
+
+                notebook.add(courses_tab, text="Courses")
+                notebook.add(schedule_tab, text="Schedule")
+                
+
+                # labels for the courses tab
+                courses_header_lbl = tk.Label(courses_tab, text="IVY SDVE Courses", foreground='White', background=COURSES_BACKGROUND_COLOR, font=('bold', 50))
+                courses_header_lbl.pack(fill="both", expand=1)
+
+                courses_subheader_lbl = tk.Label(courses_tab, text="Courses", foreground='White', background=COURSES_BACKGROUND_COLOR, font=('bold', 30))
+                courses_subheader_lbl.pack(fill="both", expand=1)
+
+                selection_lbl= tk.Label(courses_tab, text="Select a course to enroll", fg='white', background=SELECT_LBL_COLOR, anchor='w')
+                selection_lbl.pack(fill='x')
+
+
+                # make course buttons using a for loop
+                # (button text, class name, args for pack)
+                button_values = (
+                        ('SDEV 153', 'Sdev153Page', {'side':'left'}),
+                        ('SDEV 140', 'Sdev140Page', {'side':'right'}),
+                        ('SDEV 220', 'Sdev220Page', {'side':'left', 'fill':'x', 'expand':0}),
+                )
+
+                for (button_text, cls_name, pack_args) in button_values:
+                        withdraw_button = tk.Button(courses_tab, text=button_text, 
+                                                    command=lambda:controller.show_frame(cls_name), 
+                                                    relief='raised', borderwidth=3, width=25, height=5)
+                        withdraw_button.pack(**pack_args)
+
+
+                # make an exit button                
+                exit_button = tk.Button(courses_tab, text="Log Out", 
+                                        command=lambda:controller.show_frame('StartPage'), 
+                                        relief='raised', borderwidth=3,width=25, height=5)
+                exit_button.pack(side="bottom")
+
 
 
 class CourseFrame(tk.Frame):
