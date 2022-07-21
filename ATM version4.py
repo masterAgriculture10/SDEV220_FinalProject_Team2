@@ -1,56 +1,52 @@
 """
-ATM
-05/16/2022
-version 3.0
-1.This program will do what the ATM  does, it will verify the user validity through the username and password. 
-2.Give the user several options, which are 1.Deposit 2.Withdrawal 3.Balance Inquiry  4.Log Out.
-Ckeck if  they try to withdraw more money than there is, a warning will be given to the customer. 
-username is :yahya 
-pin is:   0000
+Course Manager GUI App
+
+This program allows users to view and enroll in college courses.
+
+GUI includes: 
+- Login window that authenticates users
+- Course tab that allows the user to view and select courses to enroll in
+- Schedule tab that allows the user to view the courses they are enrolled in
 """
 
 import tkinter as tk
-from tkinter import Frame, ttk
-from tkinter import font, ANCHOR
+from tkinter import Frame, ttk, font, ANCHOR
 
 
 database = {"yahya": "1111", "gunnar": "2222", "alvin": "3333", "shanika": "4444"}
-print(database)
-
+print(f'account details: {database}')
 
 
 class SampleApp(tk.Tk):
-    def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self, *args, **kwargs)
+        def __init__(self, *args, **kwargs):
+                tk.Tk.__init__(self, *args, **kwargs)
 
-#the container is where we'll stackabunch of frames
-#on top of each other, then the one we want visible
-#will be raised above the others
-        self.shared_data = {'StartPage':tk.StringVar()}
-        container=tk.Frame(self)
-        container.pack(side="top", fill="both", expand=True)
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+                #the container is where we'll stackabunch of frames
+                #on top of each other, then the one we want visible
+                #will be raised above the others
+                self.shared_data = {'StartPage':tk.StringVar()}
+                container=tk.Frame(self)
+                container.pack(side="top", fill="both", expand=True)
+                container.grid_rowconfigure(0, weight=1)
+                container.grid_columnconfigure(0, weight=1)
 
-        self.frames = {}
-        for F in (StartPage, CoursesPage, Sdev153Page, Sdev140Page, Sdev220Page):
-            page_name = F.__name__
-            frame = F(parent=container, controller= self)
-            self.frames[page_name] = frame
-            
-#put all of the pages in the same location;
-#the one on the top of the stacking order
-#will be the one that is visible.
-            
-            frame.grid(row=0, column=0, sticky="nsew")
-
-
-        self.show_frame("StartPage")
+                self.frames = {}
+                for F in (StartPage, CoursesPage, Sdev153Page, Sdev140Page, BaseCourse):
+                        page_name = F.__name__
+                        frame = F(parent=container, controller= self)
+                        self.frames[page_name] = frame
+                
+                        #put all of the pages in the same location;
+                        #the one on the top of the stacking order
+                        #will be the one that is visible.
+                        
+                        frame.grid(row=0, column=0, sticky="nsew")
+                        self.show_frame("StartPage")
         
-    def show_frame(self, page_name):
-        '''Show a frame for the given page name'''
-        frame=self.frames[page_name]
-        frame.tkraise()
+        def show_frame(self, page_name):
+                '''Show a frame for the given page name'''
+                frame=self.frames[page_name]
+                frame.tkraise()
 
 #+++++++++++++++++++++++++
 # the StartPage class which hold the login screen
@@ -227,6 +223,11 @@ class CoursesPage(tk.Frame):
             exit_button.pack(side="bottom")
 
 
+
+# Base class for each course frame
+class CourseBase(tk.Frame):
+        pass
+
 #+++++++++++++++++++++++++++++
 # Creat class to the WithdrawPage window( TransactionPage: Deposit, Withdraw, Balance,Exit)
 
@@ -386,85 +387,79 @@ class Sdev140Page (tk.Frame):
         bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
         bottom_frame.pack(fill='x',side='bottom')
 
+# hex color constants
+BG_COLOR = '#660066'
+COLOR_1 = '#003366'
+COLOR_2 = '#333333'
+
+class BaseCourse(tk.Frame):
+        """Base class for creating course frames"""
+
+        def __init__(self, parent, controller):
+                tk.Frame.__init__(self, parent, background=BG_COLOR)
+                self.controller=controller
 
 
-# Creat class to the class BalancePage window( TransactionPage: Deposit, Withdraw, Balance,Exit)
-class Sdev220Page(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent, background='#660066')
-        self.controller=controller
+                # header label
+                header_lbl = tk.Label(self, text="SDEV220", foreground='white', background=BG_COLOR, font=('bold', 50))
+                header_lbl.pack()
 
-#+++++++++++++++++++++++++++++
-# Header Labels for the  Header title of the Sdev220Page page
-        header_label8 = tk.Label(self, text="SDEV220", foreground='White', background='#660066', font=('bold', 50))
-        header_label8.pack()
-
-        selection_label4= tk.Label(self, text="Select a class to enroll in:", fg='white', background='#003366' ,anchor='w')
-        selection_label4.pack(fill='x')
-
-# creat a lable to design the Sdev220Page page with two colores
-        button_frame = tk.Frame(self, background='#003366')
-        button_frame.pack(fill='both', expand=True)
-
-# +++++++++++++++++++++++++++++
-# Listbox!
-# SINGLE, BROWSE, MULTIPLE, EXTENDED
-
-        bolded = font.Font(weight='bold')
-        my_sdev220_list_listbox = tk.Listbox(button_frame,font=bolded, relief='raised', borderwidth=4, width=70,height=4, selectmode=tk.SINGLE)
-        my_sdev220_list_listbox.grid(row=0,column=0)
-
-# Add list of items
-        my_sdev220_list = ["SDVE220 - Virtual - Feihong Liu - M,W 3:00pm-5:50pm - FortWayne - 8Wks - 3credit", 
-                   "SDVE220 - Online - Tim Tim - TH,M 6:00pm-8:50pm - Columbus - 16Wks - 3credit", 
-                   "SDVE220 - Virtual - Tom Tom - TU,W 1:00pm-4:00pm - N Meridian - 8Wks - 3credit"]
-        
-        for sdev220_itme in my_sdev220_list :
-            my_sdev220_list_listbox.insert(tk.END, sdev220_itme)
-
-  
-# Creat an uneroll function
-        def unenroll():
-            my_sdev220_label.config(text='')
-            sdev220_enroll_button['state']= tk.NORMAL
-            sdev220_unenroll_button['state']= tk.DISABLED
+                select_lbl = tk.Label(self, text="Select a class to enroll in:", foreground='white', background=COLOR_1, anchor='w')
+                select_lbl.pack(fill='x')
 
 
-# Creat an enroll function
-        def enroll():
-            my_sdev220_label.config(text=my_sdev220_list_listbox.get(ANCHOR))
-            sdev220_enroll_button['state']= tk.DISABLED
-            sdev220_unenroll_button['state']= tk.NORMAL
-
-# Creat a enroll button
-        sdev220_enroll_button = tk.Button(button_frame, text="Enroll", relief='raised',command=enroll, borderwidth=3,width=15, height=3)
-        sdev220_enroll_button.place(x=3, y=130)
-
-# Creat a uneroll button
-        sdev220_unenroll_button = tk.Button(button_frame, text="Uneroll",relief='raised', command=unenroll,borderwidth=3,width=15, height=3,)
-        sdev220_unenroll_button.place(x=179, y=130)
-        sdev220_unenroll_button['state']= tk.DISABLED
-
-# Creat a label to display the enrolled class
-        global my_sdev220_label
-        my_sdev220_label = tk.Label(button_frame, text='Enrolled class will appear here ', background='#333333', borderwidth=5,relief='raised',width=70,height=2,)
-        my_sdev220_label.place(x=3, y=80)
-
- # ++++++++++++++++++++++++++++
-# Creat a Back function
-        def back():
-            controller.show_frame('CoursesPage')
-# Creat a Back button
-        back_buttonn = tk.Button(button_frame, text="Back", command=back, relief='raised', borderwidth=3,width=15, height=3)
-        back_buttonn.place(x=355, y=130)
-#++++++++++++++++++++++
-        # Creat a Bottom frame to display the time.
-        bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
-        bottom_frame.pack(fill='x',side='bottom')
+                # put another color on the page using a frame
+                button_frame = tk.Frame(self, background=COLOR_1)
+                button_frame.pack(fill='both', expand=True)
 
 
-#++++++++++++++++++++++++++++++
-# to display everything
+                # listbox
+                bold_font = font.Font(weight='bold')
+                course_listbox = tk.Listbox(button_frame,font=bold_font, relief='raised', borderwidth=4, width=70, height=4, selectmode=tk.BROWSE)
+                course_listbox.grid(row=0,column=0)
+
+                course_list = ["SDEV220 - Virtual - Feihong Liu - M,W 3:00pm-5:50pm - FortWayne - 8Wks - 3 credits", 
+                        "SDEV220 - Online - Tim Tim - TH,M 6:00pm-8:50pm - Columbus - 16Wks - 3 credits", 
+                        "SDEV220 - Virtual - Tom Tom - TU,W 1:00pm-4:00pm - N Meridian - 8Wks - 3 credits"]
+                
+                for course in course_list:
+                        # add all the courses to the list
+                        course_listbox.insert(tk.END, course)
+
+
+                # enroll & unenroll buttons
+                def enroll():
+                        enrolled_course_lbl.config(text=course_listbox.get(ANCHOR))
+                        enroll_button['state'] = tk.DISABLED
+                        unenroll_button['state'] = tk.NORMAL
+
+                def unenroll():
+                        enrolled_course_lbl.config(text='')
+                        enroll_button['state'] = tk.NORMAL
+                        unenroll_button['state'] = tk.DISABLED
+                
+                enroll_button = tk.Button(button_frame, text="Enroll", relief='raised', command=enroll, borderwidth=3, width=15, height=3)
+                enroll_button.place(x=3, y=130)
+
+                unenroll_button = tk.Button(button_frame, text="Unenroll", relief='raised', command=unenroll, borderwidth=3, width=15, height=3)
+                unenroll_button.place(x=179, y=130)
+                unenroll_button['state'] = tk.DISABLED
+
+
+                # display the enrolled class
+                global enrolled_course_lbl
+                enrolled_course_lbl = tk.Label(button_frame, text='Enrolled class will appear here ', background=COLOR_2, borderwidth=5, relief='raised', width=70, height=2)
+                enrolled_course_lbl.place(x=3, y=80)
+
+
+                # back button
+                def back():
+                        controller.show_frame('CoursesPage')
+
+                back_button = tk.Button(button_frame, text="Back", command=back, relief='raised', borderwidth=3, width=15, height=3)
+                back_button.place(x=355, y=130)
+
+
+# display everything
 if __name__ == "__main__":
-    app = SampleApp()
-    app.mainloop()
+    SampleApp().mainloop()
