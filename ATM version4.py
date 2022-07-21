@@ -17,32 +17,31 @@ database = {"yahya": "1111", "gunnar": "2222", "alvin": "3333", "shanika": "4444
 print(f'account details: {database}')
 
 
-class SampleApp(tk.Tk):
+class CourseApp(tk.Tk):
         def __init__(self, *args, **kwargs):
-                tk.Tk.__init__(self, *args, **kwargs)
+                super().__init__(*args, **kwargs)
 
-                #the container is where we'll stackabunch of frames
-                #on top of each other, then the one we want visible
-                #will be raised above the others
+                # the container is where we'll stack a bunch of frames
+                # on top of each other, then the one we want visible
+                # will be raised above the others
                 self.shared_data = {'StartPage':tk.StringVar()}
                 container=tk.Frame(self)
                 container.pack(side="top", fill="both", expand=True)
                 container.grid_rowconfigure(0, weight=1)
                 container.grid_columnconfigure(0, weight=1)
 
+                # put all of the pages in the same location;
+                # the one on the top of the stacking order
+                # will be the one that is visible.
                 self.frames = {}
-                for F in (StartPage, CoursesPage, Sdev153Page, Sdev140Page, BaseCourse):
-                        page_name = F.__name__
-                        frame = F(parent=container, controller= self)
+                for Frame in (StartPage, CoursesPage, Sdev153Page, Sdev140Page, Sdev220Page):
+                        page_name = Frame.__name__
+                        frame = Frame(parent=container, controller=self)
                         self.frames[page_name] = frame
-                
-                        #put all of the pages in the same location;
-                        #the one on the top of the stacking order
-                        #will be the one that is visible.
-                        
                         frame.grid(row=0, column=0, sticky="nsew")
                         self.show_frame("StartPage")
         
+
         def show_frame(self, page_name):
                 '''Show a frame for the given page name'''
                 frame=self.frames[page_name]
@@ -145,8 +144,8 @@ class StartPage(tk.Frame):
       ##  card_label.pack(side='left')
       ##  card_label.image = card_photo
 
-#+++++++++++++++++++++++
-# Creat class to the second window( TransactionPage: Deposit, Withdraw, Balance,Exit)
+
+
 class CoursesPage(tk.Frame):
     def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent, background='#660066')
@@ -166,7 +165,7 @@ class CoursesPage(tk.Frame):
             my_frame2.destroy
 
             my_frame3 = Frame(my_notebook,bg="blue")
-            my_frame2.pack(fill="both", expand=1)
+            my_frame3.pack(fill="both", expand=1)
 
             my_notebook.add(my_frame1, text="Courses")
             my_notebook.add(my_frame2, text="Schedule")
@@ -224,12 +223,6 @@ class CoursesPage(tk.Frame):
 
 
 
-# Base class for each course frame
-class CourseBase(tk.Frame):
-        pass
-
-#+++++++++++++++++++++++++++++
-# Creat class to the WithdrawPage window( TransactionPage: Deposit, Withdraw, Balance,Exit)
 
 class Sdev153Page (tk.Frame):
     def __init__(self, parent, controller):
@@ -313,9 +306,6 @@ class Sdev153Page (tk.Frame):
 
 
 
-#++++++++++++++++++++++++++
-# Creat class to the DepositPage window( TransactionPage: Deposit, Withdraw, Balance,Exit)
-
 class Sdev140Page (tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, background='#660066')
@@ -387,24 +377,26 @@ class Sdev140Page (tk.Frame):
         bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
         bottom_frame.pack(fill='x',side='bottom')
 
+
 # hex color constants
 BG_COLOR = '#660066'
 COLOR_1 = '#003366'
 COLOR_2 = '#333333'
 
-class BaseCourse(tk.Frame):
+
+class CourseFrame(tk.Frame):
         """Base class for creating course frames"""
 
-        def __init__(self, parent, controller):
+        def __init__(self, parent, controller, course_name, course_list):
                 tk.Frame.__init__(self, parent, background=BG_COLOR)
                 self.controller=controller
 
 
                 # header label
-                header_lbl = tk.Label(self, text="SDEV220", foreground='white', background=BG_COLOR, font=('bold', 50))
+                header_lbl = tk.Label(self, text=course_name, foreground='white', background=BG_COLOR, font=('bold', 50))
                 header_lbl.pack()
 
-                select_lbl = tk.Label(self, text="Select a class to enroll in:", foreground='white', background=COLOR_1, anchor='w')
+                select_lbl = tk.Label(self, text="Select a class to enroll in: ", foreground='white', background=COLOR_1, anchor='w')
                 select_lbl.pack(fill='x')
 
 
@@ -416,11 +408,7 @@ class BaseCourse(tk.Frame):
                 # listbox
                 bold_font = font.Font(weight='bold')
                 course_listbox = tk.Listbox(button_frame,font=bold_font, relief='raised', borderwidth=4, width=70, height=4, selectmode=tk.BROWSE)
-                course_listbox.grid(row=0,column=0)
-
-                course_list = ["SDEV220 - Virtual - Feihong Liu - M,W 3:00pm-5:50pm - FortWayne - 8Wks - 3 credits", 
-                        "SDEV220 - Online - Tim Tim - TH,M 6:00pm-8:50pm - Columbus - 16Wks - 3 credits", 
-                        "SDEV220 - Virtual - Tom Tom - TU,W 1:00pm-4:00pm - N Meridian - 8Wks - 3 credits"]
+                course_listbox.grid(row=0, column=0)
                 
                 for course in course_list:
                         # add all the courses to the list
@@ -448,7 +436,8 @@ class BaseCourse(tk.Frame):
 
                 # display the enrolled class
                 global enrolled_course_lbl
-                enrolled_course_lbl = tk.Label(button_frame, text='Enrolled class will appear here ', background=COLOR_2, borderwidth=5, relief='raised', width=70, height=2)
+                enrolled_course_lbl = tk.Label(button_frame, text='Enrolled class will appear here.', background=COLOR_2, 
+                                               borderwidth=5, relief='raised', width=70, height=2)
                 enrolled_course_lbl.place(x=3, y=80)
 
 
@@ -460,6 +449,15 @@ class BaseCourse(tk.Frame):
                 back_button.place(x=355, y=130)
 
 
+class Sdev220Page(CourseFrame):
+        def __init__(self, parent, controller):
+                course_list = ["SDEV220 - Virtual - Feihong Liu - M,W 3:00pm-5:50pm - FortWayne - 8Wks - 3 credits", 
+                               "SDEV220 - Online - Tim Tim - TH,M 6:00pm-8:50pm - Columbus - 16Wks - 3 credits", 
+                               "SDEV220 - Virtual - Tom Tom - TU,W 1:00pm-4:00pm - N Meridian - 8Wks - 3 credits"]
+
+                super().__init__(parent, controller, course_name="SDEV 220", course_list=course_list)
+
+
 # display everything
 if __name__ == "__main__":
-    SampleApp().mainloop()
+    CourseApp().mainloop()
