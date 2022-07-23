@@ -9,12 +9,12 @@ GUI includes:
 - Schedule tab that allows the user to view the courses they are enrolled in
 """
 
-from course_manager.gui import SampleApp
+from course_manager.gui import CourseApp
 
 
 def main() -> None:
     """Runs the gui app"""
-    SampleApp().mainloop()
+    CourseApp().mainloop()
 
 
 if __name__ == '__main__':

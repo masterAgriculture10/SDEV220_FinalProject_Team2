@@ -1,433 +1,293 @@
 """
-Tkinter GUI stuff
+Course Manager
+07/24/2022
+version 3.0
+Authors:  Yahya G. Alrobaie, Gunnar Dahl, Alvin Hampton, Shanika N. Person
+
+This program allows users to view and enroll in college courses.
+
+GUI includes: 
+- Login window that authenticates users
+- Course tab that allows the user to view and select courses to enroll in
+- Schedule tab that allows the user to view the courses they are enrolled in
 """
 
 import tkinter as tk
+from tkinter import Frame, ttk, font, ANCHOR
 
 
 database = {"yahya": "1111", "gunnar": "2222", "alvin": "3333", "shanika": "4444"}
 print(f'account details: {database}')
 
 
-class SampleApp(tk.Tk):
-    def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self, *args, **kwargs)
+class CourseApp(tk.Tk):
+        def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
 
-#the container is where we'll stackabunch of frames
-#on top of each other, then the one we want visible
-#will be raised above the others
-        self.shared_data = {'Balance':tk.IntVar()}
-        container=tk.Frame(self)
-        container.pack(side="top", fill="both", expand=True)
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+                # the container is where we'll stack a bunch of frames
+                # on top of each other, then the one we want visible
+                # will be raised above the others
+                self.shared_data = {'StartPage':tk.StringVar()}
+                container=tk.Frame(self)
+                container.pack(side="top", fill="both", expand=True)
+                container.grid_rowconfigure(0, weight=1)
+                container.grid_columnconfigure(0, weight=1)
 
-        self.frames = {}
-        for F in (StartPage, CoursesPage, Sdev153Page, Sdev140Page, Sdev220Page,):
-            page_name = F.__name__
-            frame = F(parent=container, controller= self)
-            self.frames[page_name] = frame
-            
-#put all of the pages in the same location;
-#the one on the top of the stacking order
-#will be the one that is visible.
-            
-            frame.grid(row=0, column=0, sticky="nsew")
-
-
-        self.show_frame("StartPage")
+                # put all of the pages in the same location;
+                # the one on the top of the stacking order
+                # will be the one that is visible.
+                self.frames = {}
+                for F in (StartPage, CoursesPage, Sdev153Page, Sdev140Page, Sdev220Page):
+                        page_name = F.__name__
+                        frame = F(parent=container, controller=self)
+                        self.frames[page_name] = frame
+                        frame.grid(row=0, column=0, sticky="nsew")
+                
+                self.show_frame("StartPage")
         
-    def show_frame(self, page_name):
-        '''Show a frame for the given page name'''
-        frame=self.frames[page_name]
-        frame.tkraise()
 
-#+++++++++++++++++++++++++
-# the StartPage class which hold the login screen
+        def show_frame(self, page_name):
+                '''Show a frame for the given page name'''
+                frame=self.frames[page_name]
+                frame.tkraise()
+
+
 class StartPage(tk.Frame):
-    def __init__(self, parent, controller):
-# the Frame that control everything we add th the page
-        tk.Frame.__init__(self, parent, background='#003366')
-        self.controller=controller
-        
-        self.controller.title('ATM')
-# options for the screen size normal, iconic, withdrawn, or zoomed
-        self.controller.state('normal')
+        """A frame that contains the elements of the login screen"""
+        def __init__(self, parent, controller):
+                # the Frame that controls everything we add to the page
+                tk.Frame.__init__(self, parent, bg='#003366')
+                self.controller=controller
+                
+                self.controller.title('IVY Courses Registration')
+                # options for the screen size: normal, iconic, withdrawn, or zoomed
+                self.controller.state('normal')
 
-# Creat a function to clear the entries Widget conten
-        def clear_text():
-            user_entry_Box.delete(0, tk.END)
-            pin_entry_Box.delete(0, tk.END)
-
-
-#+++++++++++++++++++++++++++++
-# Header Labels for the  Header title of the login page
-        header_label1 = tk.Label(self, text="IVY ATM", foreground='White', background='#336699', font=('bold', 50))
-        header_label1.pack()
-
-        header_label2 = tk.Label(self, text="Login to Your Account", foreground='White', background='#336699', font=('bold', 50))
-        header_label2.pack(pady=30)
-# Creat a space lable 003366
-        space_label = tk.Label(self, height=5, background='#003366')
-        space_label.pack()
-
-# ++++++++++++++++++++++++++++
-# Creat a pin Label to ask the user to enter the pin
-        user_label = tk.Label(self, text='Enter your Username:', font=15, background='#003366')
-        user_label.place(x=8,y=180)
+                # notebook for just the login page
+                login_notebook = ttk.Notebook(self, width=638, height=395)
+                login_notebook.pack()
+                
+                login_tab = Frame(login_notebook, bg="#003366",)
+                login_tab.pack()
+                login_notebook.add(login_tab, text="Login")
 
 
-# Creat a entery box, to put the pin
-        user = tk.StringVar()      
-        user_entry_Box = tk.Entry(self, textvariable=user)
-        user_entry_Box.focus_set()
-        user_entry_Box.place(x=170, y=180)
+                # header labels
+                header_lbl = tk.Label(login_tab, text="IVY Courses Registration", fg='white', bg='#660066', font=('bold', 45))
+                header_lbl.pack()
+
+                selection_lbl = tk.Label(login_tab, text="Log In to Your Account:", fg='white', bg='#003366', font=('bold', 20), anchor='w')
+                selection_lbl.place(x=0, y=60)
 
 
-#++++++++++++++++++++++++++++ #336699
-# Creat a pin Label to ask the user to enter the pin 
-        pin_label = tk.Label(self, text='Enter your PIN number:', font=15, background='#003366')
-        pin_label.place(x=8,y=210) 
+                # username label & entry box
+                user_label = tk.Label(login_tab, text='Enter your username:', font=15, fg='white', bg='#003366')
+                user_label.place(x=8, y=150)
 
-# Creat a entery box, to put the pin
-        pin = tk.StringVar()      
-        pin_entry_Box = tk.Entry(self, textvariable=pin)
-        pin_entry_Box.place(x=170,y=210)
-
-# Creat a login function to check the user validate the user login
-
-        def login_check():
-            global database
-            if user.get() in database :
-                if database[user.get()] == pin.get() :
-                        pin.set('')  
-                        user.set('')
-                        incorrect_login_label['text']=''
-                        controller.show_frame('CoursesPage')
-                else:
-                        incorrect_login_label['text']='Incorrect User or PIN'
-            elif pin.get() == '' and user.get() == '':
-                    incorrect_login_label['text']=' Login please'
-            else:
-                incorrect_login_label['text']='Incorrect User or PIN'
-
-        
-# creat a Enter Button
-        enter_button = tk.Button(self, text='Enter', command=login_check, relief='flat', width=10, )
-        enter_button.place(x=10, y=250)
-
-# creat a Exit Button to quit the program
-        button_quit = tk.Button(self, text="Exit", command=self.quit,relief='flat', width=10,)
-        button_quit.place(x=180, y=250)
-# creat a Clear Button to Clear the login text
-        button_clear = tk.Button(self, text="Clear", command=clear_text,relief='flat', width=10,)
-        button_clear.place(x=350, y=250)
+                username = tk.StringVar()      
+                username_entry_box = tk.Entry(login_tab, textvariable=username)
+                username_entry_box.focus_set()
+                username_entry_box.place(x=170, y=150)
 
 
-# Creat a display message when the user enter the incorrect login 
-        incorrect_login_label = tk.Label(self, text="", background='#336699', foreground='#990033', font=('bold', 22), anchor='n')
-        incorrect_login_label.pack(fill='both', expand=True)
+                # password label & entry box
+                password_label = tk.Label(login_tab, text='Enter your password:', font=15, fg='white', bg='#003366')
+                password_label.place(x=8, y=190) 
 
-#+++++++++++++++++++++++++++++++++
-# Creat a Bottom frame to display the time and the user pin.
-        bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
-        bottom_frame.pack(fill='x',side='bottom')
+                password = tk.StringVar()      
+                password_entry_box = tk.Entry(login_tab, textvariable=password)
+                password_entry_box.place(x=170, y=190)
 
-#++++++++++++++++++++++++++++++++
-    ##    card_photo = tk.PhotoImage(file='creditcard1.png')
-     # #  card_label = tk.Label(bottom_frame,image=card_photo)
-      ##  card_label.pack(side='left')
-      ##  card_label.image = card_photo
 
-#+++++++++++++++++++++++
-# Creat class to the second window( TransactionPage: Deposit, Withdraw, Balance,Exit)
+                def login_check():
+                        """validates the input credentials"""
+                        if username.get() in database :
+                                if database[username.get()] == password.get() :
+                                        password.set('')  
+                                        username.set('')
+                                        incorrect_login_label['text']=''
+                                        controller.show_frame('CoursesPage')
+                                else:
+                                        incorrect_login_label['text']='Incorrect username or password'
+                        elif password.get() == '' and username.get() == '':
+                                incorrect_login_label['text']='Enter your username and password'
+                        else:
+                                incorrect_login_label['text']='Incorrect username or password'
+
+
+                def clear_text():
+                        """clears the text in the entry boxes"""
+                        username_entry_box.delete(0, tk.END)
+                        password_entry_box.delete(0, tk.END)
+                
+
+                # submit, exit, clear buttons
+                submit_button = tk.Button(login_tab, text='Enter', command=login_check, relief='raised', width=10, height=2, borderwidth=3)
+                submit_button.place(x=45, y=270)
+
+                clear_button = tk.Button(login_tab, text="Clear", command=clear_text, relief='raised', width=10, height=2, borderwidth=3)
+                clear_button.place(x=230, y=270)
+
+                quit_button = tk.Button(login_tab, text="Exit", command=self.quit, relief='raised', width=10, height=2, borderwidth=3)
+                quit_button.place(x=420, y=270)
+
+
+                # create a message label to display when the user enters an incorrect login 
+                incorrect_login_label = tk.Label(login_tab, text="", fg='white', bg='#003366', font=('bold', 22), anchor='n')
+                incorrect_login_label.place(x=180, y=220)
+
+
+
+
 class CoursesPage(tk.Frame):
-    def __init__(self, parent, controller):
-            tk.Frame.__init__(self, parent, background='#660066')
-            self.controller=controller
-
- #+++++++++++++++++++++++++++++
-# Header Labels for the  Header title of the TransactionPage page
-            header_label3 = tk.Label(self, text="IVY SDVE Courses", foreground='White', background='#660066', font=('bold', 50))
-            header_label3.pack()
-
-# Header Labels for the  Header title of the TransactionPage page
-            header_label4 = tk.Label(self, text="Courses", foreground='White', background='#660066', font=('bold', 25))
-            header_label4.pack(pady=5)
-
-            selection_label= tk.Label(self, text="Select a course to enroll", fg='white', background='#003366' ,anchor='w')
-            selection_label.pack(fill='x')
-
-# Creat a frame to display the transaction button.
-            button_frame = tk.Frame(self, background='#003366')
-            button_frame.pack(fill='both', expand=True)
-
-# ++++++++++++++++++++++++++++
-# Creat a Withdraw function
-            def sdev_153():
-                controller.show_frame('Sdev153Page')
-# Creat a withdraw button
-            withdraw_button = tk.Button(button_frame, text="SDEV153", command=sdev_153, relief='raised', borderwidth=3, width=25, height=5)
-            withdraw_button.grid(row=0, column=0)
-
-# ++++++++++++++++++++++++++++
-# Creat a deposit function
-            def sdev_140():
-                controller.show_frame('Sdev140Page')
-# Creat a deposit button
-            deposit_button = tk.Button(button_frame, text="SDEV140", command=sdev_140, relief='raised', borderwidth=3, width=25, height=5)
-            deposit_button.grid(row=1, column=0)
-
-# ++++++++++++++++++++++++++++
-# Creat a balance function
-            def sdev_220():
-                controller.show_frame('Sdev220Page')
-# Creat a balance button
-            balance_button = tk.Button(button_frame, text="SDEV220", command=sdev_220, relief='raised', borderwidth=3, width=25, height=5)
-            balance_button.grid(row=0, column=1)
-
-# ++++++++++++++++++++++++++++
-# Creat a exit function
-            def exit():
-                controller.show_frame('StartPage')
-# Creat a exit button
-            exit_button = tk.Button(button_frame, text="LogOut", command=exit, relief='raised', borderwidth=3,width=25, height=5)
-            exit_button.grid(row=1,column=1,)
-
-#+++++++++++++++++++++++++++++++++
-# Creat a Bottom frame to display the time.
-            bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
-            bottom_frame.pack(fill='x',side='bottom')
+        def __init__(self, parent, controller):
+                tk.Frame.__init__(self, parent, bg='#660066')
+                self.controller=controller
 
 
-#+++++++++++++++++++++++++++++
-# Creat class to the WithdrawPage window( TransactionPage: Deposit, Withdraw, Balance,Exit)
+                # create a notebook and its tab frames
+                notebook = ttk.Notebook(self, width=638, height=395)
+                notebook.pack()
 
-class Sdev153Page (tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent,background='#660066')
-        self.controller=controller
-#+++++++++++++++++++++++++++++
-# Header Labels for the  Header title of the WithdrawPage page
-        header_label5 = tk.Label(self, text="SDEV153", foreground='White', background='#660066', font=('bold', 50))
-        header_label5.pack()
+                courses_tab = Frame(notebook, bg='#003366')
+                courses_tab.pack()
 
-        selection_label2= tk.Label(self, text="Select a class to enroll in:", fg='white', background='#003366' ,anchor='w')
-        selection_label2.pack(fill='x')
+                global schedule_tab
+                schedule_tab = Frame(notebook, bg="#003366")
+                schedule_tab.pack()
 
-        button_frame = tk.Frame(self, background='#336699' )
-        button_frame.pack(fill='both', expand=True)
+                notebook.add(courses_tab, text="Courses")
+                notebook.add(schedule_tab, text="Schedule")
+                
 
-         # +++++++++++++++++++++++++++++
-# Listbox!
-# SINGLE, BROWSE, MULTIPLE, EXTENDED
+                # labels for the courses tab
+                courses_header_lbl = tk.Label(courses_tab, text="IVY Courses", width=600, fg='white', bg='#660066', font=('bold', 30))
+                courses_header_lbl.pack()
 
-        bolded = font.Font(weight='bold')
-        my_sdev153_listbox = tk.Listbox(button_frame,font=bolded, relief='raised', borderwidth=4, width=70,height=4, selectmode=tk.SINGLE)
-        my_sdev153_listbox.grid(row=0,column=0)
-
-# Add list of items
-        my_sdev153_list = ["SDVE153 - Anywhere - Keneisha E - M,TH 9:00am-1:00pm - FortWayne - 16Wks - 3 credits", 
-                   "SDVE153 - Online - Milford Hutsell - M,W 6:00pm-8:50pm - Columbus - 2nd 8Wks - 3credits", 
-                   "SDVE153 - Traditional - Mike Gorsline - m,w 2:00pm-5:00pm - N Meridian - 1st 8Wks - 3credits"]
-        
-        for sdev153_itme in my_sdev153_list:
-            my_sdev153_listbox.insert(tk.END, sdev153_itme)
-
-  
-# Creat an uneroll function
-        def unenroll():
-            my_sdev153_label.config(text='')
-            sdev153_enroll_button['state']= tk.NORMAL
-            sdev153_unenroll_button['state']= tk.DISABLED
+                selection_lbl= tk.Label(courses_tab, text="Select a course to enroll in", fg='white', bg='#003366', font=('bold', 20), anchor='w')
+                selection_lbl.place(x=0, y=40)
 
 
-# Creat an enroll function
-        def enroll():
-            my_sdev153_label.config(text=my_sdev153_listbox.get(ANCHOR))
-            sdev153_enroll_button['state']= tk.DISABLED
-            sdev153_unenroll_button['state']= tk.NORMAL
+                # make course buttons using a for loop
+                # (button text, class name, x, y)
+                button_values = (
+                        ('SDEV 153', 'Sdev153Page', 0,   100),
+                        ('SDEV 140', 'Sdev140Page', 210, 100),
+                        ('SDEV 220', 'Sdev220Page', 420, 100),
+                )
+                
+                for (button_text, cls_name, x, y) in button_values:
+                        button = tk.Button(courses_tab, text=button_text, 
+                                                command=lambda cls_name=cls_name:controller.show_frame(cls_name), 
+                                                relief='raised', borderwidth=3, width=20, height=4)
+                        button.place(x=x, y=y)
 
-# Creat a enroll button
-        sdev153_enroll_button = tk.Button(button_frame, text="Enroll", relief='raised',command=enroll, borderwidth=3,width=15, height=3)
-        sdev153_enroll_button.place(x=3, y=130)
 
-# Creat a uneroll button
-        sdev153_unenroll_button = tk.Button(button_frame, text="Uneroll",relief='raised', command=unenroll,borderwidth=3,width=15, height=3,)
-        sdev153_unenroll_button.place(x=179, y=130)
-        sdev153_unenroll_button['state']= tk.DISABLED
-
-# Creat a label to display the enrolled class
-        global my_sdev153_label
-        my_sdev153_label = tk.Label(button_frame, text='Enrolled class will appear here ', background='#333333', borderwidth=5,relief='raised',width=70,height=2,)
-        my_sdev153_label.place(x=3, y=80)
-
- # ++++++++++++++++++++++++++++
-# Creat a Back function
-        def back():
-            controller.show_frame('CoursesPage')
-# Creat a Back button
-        back_buttonn = tk.Button(button_frame, text="Back", command=back, relief='raised', borderwidth=3,width=15, height=3)
-        back_buttonn.place(x=355, y=130)
-#++++++++++++++++++++++
-        # Creat a Bottom frame to display the time.
-        bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
-        bottom_frame.pack(fill='x',side='bottom')
+                # make an logout button                
+                exit_button = tk.Button(courses_tab, text="Log Out", 
+                                        command=lambda:controller.show_frame('StartPage'), 
+                                        relief='raised', borderwidth=2, width=10, height=2)
+                exit_button.place(x=515, y=0)
 
 
 
+class CourseFrame(tk.Frame):
+        """Base class for creating course frames"""
 
-#++++++++++++++++++++++++++
-# Creat class to the DepositPage window( TransactionPage: Deposit, Withdraw, Balance,Exit)
+        def __init__(self, parent, controller, course_name, course_list, course_index):
+                tk.Frame.__init__(self, parent, bg='#660066')
+                self.controller=controller
 
-class Sdev140Page (tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent, background='#660066')
-        self.controller=controller
-#+++++++++++++++++++++++++++++
-# Header Labels for the  Header title of the DepositPage page
-        header_label7 = tk.Label(self, text="SDEV140", foreground='White', background='#660066', font=('bold', 50))
-        header_label7.pack()
+                # create a notebook just for this course
+                this_course_notebook = ttk.Notebook(self, width=638, height=395)
+                this_course_notebook.pack()
+                
+                this_course_tab = Frame(this_course_notebook, bg="#003366")
+                this_course_tab.pack()
 
-        selection_label3= tk.Label(self, text="Select a class to enroll in:", fg='white', background='#003366' ,anchor='w')
-        selection_label3.pack(fill='x')
-
-        button_frame = tk.Frame(self, background='#336699' )
-        button_frame.pack(fill='both', expand=True)
-
- # +++++++++++++++++++++++++++++
-# Listbox!
-# SINGLE, BROWSE, MULTIPLE, EXTENDED
-
-        bolded = font.Font(weight='bold')
-        my_sdev140_listbox = tk.Listbox(button_frame,font=bolded, relief='raised', borderwidth=4, width=70,height=4, selectmode=tk.SINGLE)
-        my_sdev140_listbox.grid(row=0,column=0)
-
-# Add list of items
-        my_sdev140_list = ["SDVE140 - Anywhere - Steve Carver - M,W 1:00pm-4:50pm - FortWayne - 16Wks - 3 credits", 
-                   "SDVE140 - Online - Jon Jon - M,W 6:00pm-8:50pm - Columbus - 16Wks - 3credits", 
-                   "SDVE140 - Virtual - Alf Sanford - F,M 1:00pm-4:00pm - N Meridian - 8Wks - 3credits"]
-        
-        for sdev140_itme in my_sdev140_list:
-            my_sdev140_listbox.insert(tk.END, sdev140_itme)
-
-  
-# Creat an uneroll function
-        def unenroll():
-            my_sdev140_label.config(text='')
-            sdev140_enroll_button['state']= tk.NORMAL
-            sdev140_unenroll_button['state']= tk.DISABLED
+                this_course_notebook.add(this_course_tab, text=course_name)
 
 
-# Creat an enroll function
-        def enroll():
-            my_sdev140_label.config(text=my_sdev140_listbox.get(ANCHOR))
-            sdev140_enroll_button['state']= tk.DISABLED
-            sdev140_unenroll_button['state']= tk.NORMAL
-
-# Creat a enroll button
-        sdev140_enroll_button = tk.Button(button_frame, text="Enroll", relief='raised',command=enroll, borderwidth=3,width=15, height=3)
-        sdev140_enroll_button.place(x=3, y=130)
-
-# Creat a uneroll button
-        sdev140_unenroll_button = tk.Button(button_frame, text="Uneroll",relief='raised', command=unenroll,borderwidth=3,width=15, height=3,)
-        sdev140_unenroll_button.place(x=179, y=130)
-        sdev140_unenroll_button['state']= tk.DISABLED
-
-# Creat a label to display the enrolled class
-        global my_sdev140_label
-        my_sdev140_label = tk.Label(button_frame, text='Enrolled class will appear here ', background='#333333', borderwidth=5,relief='raised',width=70,height=2,)
-        my_sdev140_label.place(x=3, y=80)
-
- # ++++++++++++++++++++++++++++
-# Creat a Back function
-        def back():
-            controller.show_frame('CoursesPage')
-# Creat a Back button
-        back_buttonn = tk.Button(button_frame, text="Back", command=back, relief='raised', borderwidth=3,width=15, height=3)
-        back_buttonn.place(x=355, y=130)
-#++++++++++++++++++++++
-        # Creat a Bottom frame to display the time.
-        bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
-        bottom_frame.pack(fill='x',side='bottom')
+                # header label
+                header_lbl = tk.Label(this_course_tab, text="Select a course to enroll in: ", fg='white', bg='#003366', font=('bold', 20), anchor='w')
+                header_lbl.place(x=0, y=0)
 
 
-
-# Creat class to the class BalancePage window( TransactionPage: Deposit, Withdraw, Balance,Exit)
-class Sdev220Page(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent, background='#660066')
-        self.controller=controller
-
-#+++++++++++++++++++++++++++++
-# Header Labels for the  Header title of the Sdev220Page page
-        header_label8 = tk.Label(self, text="SDEV220", foreground='White', background='#660066', font=('bold', 50))
-        header_label8.pack()
-
-        selection_label4= tk.Label(self, text="Select a class to enroll in:", fg='white', background='#003366' ,anchor='w')
-        selection_label4.pack(fill='x')
-
-# creat a lable to design the Sdev220Page page with two colores
-        button_frame = tk.Frame(self, background='#003366')
-        button_frame.pack(fill='both', expand=True)
-
-# +++++++++++++++++++++++++++++
-# Listbox!
-# SINGLE, BROWSE, MULTIPLE, EXTENDED
-
-        bolded = font.Font(weight='bold')
-        my_sdev220_list_listbox = tk.Listbox(button_frame,font=bolded, relief='raised', borderwidth=4, width=70,height=4, selectmode=tk.SINGLE)
-        my_sdev220_list_listbox.grid(row=0,column=0)
-
-# Add list of items
-        my_sdev220_list = ["SDVE220 - Virtual - Feihong Liu - M,W 3:00pm-5:50pm - FortWayne - 8Wks - 3credit", 
-                   "SDVE220 - Online - Tim Tim - TH,M 6:00pm-8:50pm - Columbus - 16Wks - 3credit", 
-                   "SDVE220 - Virtual - Tom Tom - TU,W 1:00pm-4:00pm - N Meridian - 8Wks - 3credit"]
-        
-        for sdev220_itme in my_sdev220_list :
-            my_sdev220_list_listbox.insert(tk.END, sdev220_itme)
-
-  
-# Creat an uneroll function
-        def unenroll():
-            my_sdev220_label.config(text='')
-            sdev220_enroll_button['state']= tk.NORMAL
-            sdev220_unenroll_button['state']= tk.DISABLED
+                # listbox
+                bold_font = font.Font(weight='bold')
+                course_listbox = tk.Listbox(this_course_tab, font=bold_font, relief='raised', borderwidth=4, width=70, height=4, selectmode=tk.BROWSE)
+                course_listbox.place(x=0, y=30)
+                
+                for course in course_list:
+                        course_listbox.insert(tk.END, course)
 
 
-# Creat an enroll function
-        def enroll():
-            my_sdev220_label.config(text=my_sdev220_list_listbox.get(ANCHOR))
-            sdev220_enroll_button['state']= tk.DISABLED
-            sdev220_unenroll_button['state']= tk.NORMAL
+                # enroll & unenroll buttons
+                def enroll():
+                        enrolled_course_lbl.config(text=course_listbox.get(ANCHOR))
+                        schedule_lbl.config(text=course_listbox.get(ANCHOR))
+                        enroll_button['state'] = tk.DISABLED
+                        unenroll_button['state'] = tk.NORMAL
 
-# Creat a enroll button
-        sdev220_enroll_button = tk.Button(button_frame, text="Enroll", relief='raised',command=enroll, borderwidth=3,width=15, height=3)
-        sdev220_enroll_button.place(x=3, y=130)
+                def unenroll():
+                        enrolled_course_lbl.config(text='')
+                        schedule_lbl.config(text='')
+                        enroll_button['state'] = tk.NORMAL
+                        unenroll_button['state'] = tk.DISABLED
+                
+                enroll_button = tk.Button(this_course_tab, text="Enroll", relief='raised', command=enroll, borderwidth=3, width=15, height=3)
+                enroll_button.place(x=40, y=180)
 
-# Creat a uneroll button
-        sdev220_unenroll_button = tk.Button(button_frame, text="Uneroll",relief='raised', command=unenroll,borderwidth=3,width=15, height=3,)
-        sdev220_unenroll_button.place(x=179, y=130)
-        sdev220_unenroll_button['state']= tk.DISABLED
+                unenroll_button = tk.Button(this_course_tab, text="Unenroll", relief='raised', command=unenroll, borderwidth=3, width=15, height=3)
+                unenroll_button.place(x=229, y=180)
+                unenroll_button['state'] = tk.DISABLED
 
-# Creat a label to display the enrolled class
-        global my_sdev220_label
-        my_sdev220_label = tk.Label(button_frame, text='Enrolled class will appear here ', background='#333333', borderwidth=5,relief='raised',width=70,height=2,)
-        my_sdev220_label.place(x=3, y=80)
 
- # ++++++++++++++++++++++++++++
-# Creat a Back function
-        def back():
-            controller.show_frame('CoursesPage')
-# Creat a Back button
-        back_buttonn = tk.Button(button_frame, text="Back", command=back, relief='raised', borderwidth=3,width=15, height=3)
-        back_buttonn.place(x=355, y=130)
-#++++++++++++++++++++++
-        # Creat a Bottom frame to display the time.
-        bottom_frame = tk.Frame(self,relief='raised',borderwidth=3)
-        bottom_frame.pack(fill='x',side='bottom')
+                # display the enrolled class
+                enrolled_course_lbl = tk.Label(this_course_tab, text='Enrolled class will appear here.', fg='white', bg='#333333', 
+                                               borderwidth=5, relief='raised', width=65, height=2)
+                enrolled_course_lbl.place(x=7, y=120)
 
-#++++++++++++++++++++++++++++++
-# to display everything
+
+                # display the enrolled class in the schedule
+                schedule_lbl = tk.Label(schedule_tab, text='Enrolled class will appear here.', fg='white', bg='#333333', borderwidth=5, relief='raised', width=65, height=2)
+                schedule_lbl.place(x=7, y=45*course_index+2)
+
+
+                # back button
+                back_button = tk.Button(this_course_tab, text="Back", relief='raised', borderwidth=3, width=15, height=3, 
+                                        command=lambda:controller.show_frame('CoursesPage'))
+                back_button.place(x=420, y=180)
+
+
+# CourseFrame child classes
+
+class Sdev153Page(CourseFrame):
+        def __init__(self, parent, controller):
+                course_list = ["SDVE153 - Anywhere - Keneisha E - M,TH 9:00am-1:00pm - FortWayne - 16Wks - 3 credits", 
+                               "SDVE153 - Online - Milford Hutsell - M,W 6:00pm-8:50pm - Columbus - 2nd 8Wks - 3credits", 
+                               "SDVE153 - Traditional - Mike Gorsline - m,w 2:00pm-5:00pm - N Meridian - 1st 8Wks - 3credits"]
+
+                CourseFrame.__init__(self, parent, controller, course_name="SDEV 153", course_list=course_list, course_index=0)
+
+
+class Sdev140Page(CourseFrame):
+        def __init__(self, parent, controller):
+                course_list = ["SDVE140 - Anywhere - Steve Carver - M,W 1:00pm-4:50pm - FortWayne - 16Wks - 3 credits", 
+                               "SDVE140 - Online - Jon Jon - M,W 6:00pm-8:50pm - Columbus - 16Wks - 3credits", 
+                               "SDVE140 - Virtual - Alf Sanford - F,M 1:00pm-4:00pm - N Meridian - 8Wks - 3credits"]
+
+                CourseFrame.__init__(self, parent, controller, course_name="SDEV 140", course_list=course_list, course_index=1)
+
+
+class Sdev220Page(CourseFrame):
+        def __init__(self, parent, controller):
+                course_list = ["SDEV220 - Virtual - Feihong Liu - M,W 3:00pm-5:50pm - FortWayne - 8Wks - 3 credits", 
+                               "SDEV220 - Online - Tim Tim - TH,M 6:00pm-8:50pm - Columbus - 16Wks - 3 credits", 
+                               "SDEV220 - Virtual - Tom Tom - TU,W 1:00pm-4:00pm - N Meridian - 8Wks - 3 credits"]
+
+                CourseFrame.__init__(self, parent, controller, course_name="SDEV 220", course_list=course_list, course_index=2)
+
+
 if __name__ == "__main__":
     print('please run the main.py file instead')
