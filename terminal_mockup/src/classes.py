@@ -2,7 +2,7 @@
 These classes are used in the course manager application for the SDEV 220 final project.
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 from datetime import time
 from itertools import combinations
@@ -69,16 +69,15 @@ class Course:
             'start_time':   start_str,
             'end_time':     end_str,
             'days':         day_str_list,
-        }
+        }  
 
 
-class Schedule:
-    """Contains a list of Courses that a student has selected"""
-    def __init__(self, courses:Optional[List[Course]]=None) -> None:
-        if courses is None:
-            courses = []
-        else: 
-            self.courses = courses
+@dataclass
+class Student:
+    """Contains the student's account information and the list of courses they are taking"""
+    username: str
+    password: str
+    courses: List[Course] = field(default_factory=list)
 
     def has_overlaps(self) -> bool:
         """whether any courses in the list overlap each other"""
@@ -86,24 +85,14 @@ class Schedule:
         pair_overlaps = [a.overlaps_with(b) for a,b in combos]
         return (True in pair_overlaps)
 
-
-@dataclass
-class Student:
-    """Contains the student's account information as well as the schedule they have made"""
-    username: str
-    password: str
-    schedule: Schedule = Schedule()
-
     @classmethod
     def from_json(cls, json:Dict, all_courses:List[Course]) -> 'Student':
-        student_courses = list(filter(lambda course: course.id in json['schedule'], all_courses))
-        schedule = Schedule(student_courses)
-
-        return cls(json['username'], json['password'], schedule)
+        student_courses = list(filter(lambda course: course.id in json['courses'], all_courses))
+        return cls(json['username'], json['password'], student_courses)
     
     def to_json(self, all_courses: List[Course]) -> Dict:
         def find_course_by_name(course:Course, course_list:List[Course]):
             return next(filter(lambda c: c.name==course.name, course_list))
-        id_list = list(map(lambda c:find_course_by_name(c, all_courses).id, self.schedule.courses))
+        id_list = list(map(lambda c:find_course_by_name(c, all_courses).id, self.courses))
         
-        return {'username':self.username, 'password':self.password, 'schedule':id_list}
+        return {'username':self.username, 'password':self.password, 'courses':id_list}

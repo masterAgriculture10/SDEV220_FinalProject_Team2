@@ -3,17 +3,17 @@
         {
             "username": "skywalker1",
             "password": "your_father",
-            "schedule": [0, 1]
+            "courses": [0, 1]
         },
         {
             "username": "artwodeetwo",
             "password": "ceethreepeeoh",
-            "schedule": []
+            "courses": []
         },
         {
             "username": "yahya",
             "password": "0000",
-            "schedule": [2]
+            "courses": [2]
         }
     ],
     "courses": [
