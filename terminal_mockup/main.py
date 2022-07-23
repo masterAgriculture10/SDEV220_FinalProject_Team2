@@ -18,7 +18,7 @@ exit
 
 from typing import NoReturn
 
-from enroller.terminal_io import do_terminal_program
+from src.terminal_io import do_terminal_program
 
 
 def main() -> NoReturn:
