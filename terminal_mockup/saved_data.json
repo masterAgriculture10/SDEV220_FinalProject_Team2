@@ -30,8 +30,8 @@
             "start_time": "16:00",
             "end_time": "18:30",
             "days": [
-                "WED",
-                "MON"
+                "MON",
+                "WED"
             ]
         },
         {
@@ -54,8 +54,20 @@
             "start_time": "19:30",
             "end_time": "22:00",
             "days": [
-                "THU",
-                "TUE"
+                "TUE",
+                "THU"
+            ]
+        },
+        {
+            "id": 3,
+            "name": "WXYZ 300",
+            "instructor": "Brandon Fox",
+            "location": "Mt. Vesuvius",
+            "start_time": "18:30",
+            "end_time": "20:00",
+            "days": [
+                "MON",
+                "THU"
             ]
         }
     ]

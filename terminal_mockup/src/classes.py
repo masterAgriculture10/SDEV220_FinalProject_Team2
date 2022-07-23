@@ -21,7 +21,7 @@ class Course:
     _id_counter:int = 0
 
     def __init__(self, name:str, instructor:str, location:str, 
-                 start_time:time, end_time:time, days:Set[Day], 
+                 start_time:time, end_time:time, days:List[Day], 
                  *, id:Optional[int] = None) -> None:
         if id is None:
             self.id = Course._id_counter
@@ -39,7 +39,7 @@ class Course:
 
     def overlaps_with(self, other:'Course') -> bool:
         """whether another course's time and day overlap with this one's"""
-        if len(self.days.intersection(other.days)) == 0:
+        if len(set(self.days).intersection(set(other.days))) == 0:
             return False
         if self.end_time <= other.start_time:
             return False
@@ -51,7 +51,7 @@ class Course:
     def from_json(cls, json:Dict) -> 'Course':
         start_time = time.fromisoformat(json['start_time'])
         end_time = time.fromisoformat(json['end_time'])
-        days = {Day[day_name] for day_name in json['days']}
+        days = [Day[day_name] for day_name in json['days']]
         
         return cls(json['name'], json['instructor'], json['location'], 
                    start_time, end_time, days, id=json['id'])

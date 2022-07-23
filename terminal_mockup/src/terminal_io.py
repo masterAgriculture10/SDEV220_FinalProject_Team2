@@ -13,7 +13,6 @@ def do_terminal_program():
     """Does login and course select"""
 
     courses, students = load_json()
-
     # login
     start_display()
     username, password = prompt_login()
@@ -57,6 +56,8 @@ def interpret_command(command_text: str, student: Student, course_list: List[Cou
     elif command == 'schedule':
         print(f"{student.username}'s schedule:")
         display_courses(student.courses)
+        if student.has_overlaps():
+            print('warning: some of your courses overlap')
 
     elif command == 'save':
         save_json(course_list, student_list)
@@ -94,14 +95,14 @@ def enroll_in(input_name:Optional[str], student_courses:List[Course], offered_co
     print(f"added {input_name} to your schedule")
 
 
-def unenroll_in(course_name:Optional[str], student_courses:List[Course]) -> None:
+def unenroll_in(input_name:Optional[str], student_courses:List[Course]) -> None:
 
-    if course_name is None:
+    if input_name is None:
         print("please provide the name of the course")
         return
     
     for i, course in enumerate(student_courses):
-        if course.name.lower() == course_name:
+        if course.name.lower() == input_name:
             student_courses.pop(i)
             print(f"removed {course.name} from your schedule")
             return
@@ -150,11 +151,15 @@ def prompt_command() -> Union[str, NoReturn]:
 
 
 def display_courses(courses: List[Course]) -> None:
-    """Displays the input list of courses
-    TODO: display days correctly"""
+    """Displays the input list of courses"""
     print(f'_{"Name":_<15}_|_{"Instructor":_<15}_|_{"Location":_<15}_|_'
-          f'{"Starts":_<8}_|_{"Ends":_<8}_|_{"Days":_<15}')
+          f'{"Starts":_<8}_|_{"Ends":_<8}_|_{"Days":_<13}_')
     for c in courses:
         print(f' {c.name:<15} | {c.instructor:<15} | {c.location:<15} | '
-              f'{c.start_time.isoformat(timespec="minutes"):>5}    | {c.end_time.isoformat(timespec="minutes"):>5}    | {"-unavailable-":<15}')
+              f'{c.start_time.isoformat(timespec="minutes"):>5}    | {c.end_time.isoformat(timespec="minutes"):>5}    | ', end='')
+        for i, day in enumerate(c.days):
+            print(day.name, end='')
+            if i+1 < len(c.days):
+                print(', ', end='')
+        print()
 
