@@ -1,0 +1,74 @@
+{
+    "students": [
+        {
+            "username": "skywalker1",
+            "password": "your_father",
+            "courses": [
+                0,
+                1
+            ]
+        },
+        {
+            "username": "artwodeetwo",
+            "password": "ceethreepeeoh",
+            "courses": []
+        },
+        {
+            "username": "yahya",
+            "password": "0000",
+            "courses": [
+                1
+            ]
+        }
+    ],
+    "courses": [
+        {
+            "id": 0,
+            "name": "SDEV 220",
+            "instructor": "Feihong Liu",
+            "location": "Gary",
+            "start_time": "16:00",
+            "end_time": "18:30",
+            "days": [
+                "MON",
+                "WED"
+            ]
+        },
+        {
+            "id": 1,
+            "name": "SDEV 140",
+            "instructor": "John Bean",
+            "location": "Nepal",
+            "start_time": "11:00",
+            "end_time": "13:30",
+            "days": [
+                "TUE",
+                "FRI"
+            ]
+        },
+        {
+            "id": 2,
+            "name": "ABCD 123",
+            "instructor": "Sarah Evanston",
+            "location": "Sacramento",
+            "start_time": "19:30",
+            "end_time": "22:00",
+            "days": [
+                "TUE",
+                "THU"
+            ]
+        },
+        {
+            "id": 3,
+            "name": "WXYZ 300",
+            "instructor": "Brandon Fox",
+            "location": "Mt. Vesuvius",
+            "start_time": "18:30",
+            "end_time": "20:00",
+            "days": [
+                "MON",
+                "THU"
+            ]
+        }
+    ]
+}

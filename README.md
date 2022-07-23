@@ -11,7 +11,7 @@ Students of some university
 - Login window that authenticates users
 - Course tab that allows the user to view and select courses to enroll in
 - Schedule tab that allows the user to view the courses they are enrolled in
-- Each user's schedule is persistant across sessions
+- Each user's schedule persists across sessions
 
 ## GUI Sketches
 <p align="center">
