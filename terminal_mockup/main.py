@@ -11,11 +11,13 @@ Commands:
 courses
 [un]enroll <course name>
 schedule
+save
 help
 exit
 """
 
 from typing import NoReturn
+
 from enroller.terminal_io import do_terminal_program
 
 
