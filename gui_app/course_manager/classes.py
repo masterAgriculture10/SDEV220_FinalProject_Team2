@@ -9,6 +9,9 @@ from itertools import combinations
 from typing import Dict, List, Optional
 
 
+CREDIT_LIMIT = 15
+
+
 class Day(Enum):
     """A day of the week\n
     (0 -> Sunday, 6 -> Saturday)"""
@@ -20,8 +23,8 @@ class Course:
 
     _id_counter:int = 0
 
-    def __init__(self, name:str, instructor:str, location:str, 
-                 start_time:time, end_time:time, days:List[Day], 
+    def __init__(self, name:str, instructor:str, location:str, style:str,
+                 start_time:time, end_time:time, days:List[Day], credit_hours:int, 
                  *, id:Optional[int] = None) -> None:
         if id is None:
             self.id = Course._id_counter
@@ -33,9 +36,11 @@ class Course:
         self.name = name
         self.instructor = instructor
         self.location = location
+        self.style = style
         self.start_time = start_time
         self.end_time = end_time
         self.days = days
+        self.credit_hours = credit_hours
 
     def overlaps_with(self, other:'Course') -> bool:
         """whether another course's time and day overlap with this one's"""
@@ -58,8 +63,8 @@ class Course:
         except KeyError:
             id = None
         
-        return cls(json['name'], json['instructor'], json['location'], 
-                   start_time, end_time, days, id=id)
+        return cls(json['name'], json['instructor'], json['location'], json['style'],
+                   start_time, end_time, days, json['credit_hours'], id=id)
     
     def to_json(self) -> Dict:
         start_str = time.isoformat(self.start_time, 'minutes')
@@ -71,9 +76,11 @@ class Course:
             'name':         self.name,
             'instructor':   self.instructor,
             'location':     self.location,
+            'style':        self.style,
             'start_time':   start_str,
             'end_time':     end_str,
             'days':         day_str_list,
+            'credit_hours': self.credit_hours,
         }  
 
 
@@ -89,6 +96,9 @@ class Student:
         combos = combinations(self.courses, 2)
         pair_overlaps = [a.overlaps_with(b) for a,b in combos]
         return (True in pair_overlaps)
+    
+    def is_over_credit_limit(self) -> bool:
+        return sum(map(lambda c: c.credit_hours, self.courses)) > CREDIT_LIMIT
 
     @classmethod
     def from_json(cls, json:Dict, all_courses:List[Course]) -> 'Student':

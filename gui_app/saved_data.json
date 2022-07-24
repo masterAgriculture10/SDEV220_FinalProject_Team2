@@ -1,0 +1,393 @@
+{
+    "students": [
+        {
+            "username": "yahya",
+            "password": "1111",
+            "courses": []
+        },
+        {
+            "username": "gunnar",
+            "password": "2222",
+            "courses": []
+        },
+        {
+            "username": "alvin",
+            "password": "3333",
+            "courses": []
+        },
+        {
+            "username": "shanika",
+            "password": "4444",
+            "courses": []
+        }
+    ],
+    "courses": [
+        {
+            "id": 0,
+            "name": "ACCT 101",
+            "instructor": "Sean Carter",
+            "location": "Fort Wayne",
+            "style": "Virtual Instruction",
+            "start_time": "10:00",
+            "end_time": "12:00",
+            "days": [
+                "MON",
+                "WED"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 1,
+            "name": "ACCT 101",
+            "instructor": "Kim Kardashian",
+            "location": "Columbus",
+            "style": "Learn Anywhere",
+            "start_time": "13:00",
+            "end_time": "15:00",
+            "days": [
+                "TUE",
+                "THU"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 2,
+            "name": "ACCT 101",
+            "instructor": "Curtis Jackson",
+            "location": "N Meridian",
+            "style": "Traditional",
+            "start_time": "15:00",
+            "end_time": "18:00",
+            "days": [
+                "FRI"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 3,
+            "name": "BIO 101",
+            "instructor": "Nye Bill",
+            "location": "Fort Wayne",
+            "style": "Traditional",
+            "start_time": "13:00",
+            "end_time": "16:30",
+            "days": [
+                "MON",
+                "WED"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 4,
+            "name": "BIO 101",
+            "instructor": "Professor X",
+            "location": "Columbus",
+            "style": "Virtual Instruction",
+            "start_time": "18:00",
+            "end_time": "21:30",
+            "days": [
+                "TUE",
+                "THU"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 5,
+            "name": "BIO 101",
+            "instructor": "Bill Nye",
+            "location": "N Meridian",
+            "style": "Traditional",
+            "start_time": "13:00",
+            "end_time": "17:00",
+            "days": [
+                "TUE"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 6,
+            "name": "DBMS 110",
+            "instructor": "Anthony Stark",
+            "location": "New York City",
+            "style": "Traditional",
+            "start_time": "14:00",
+            "end_time": "17:50",
+            "days": [
+                "FRI"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 7,
+            "name": "DBMS 110",
+            "instructor": " Stark Anthony",
+            "location": "New York City",
+            "style": "Virtual Instruction",
+            "start_time": "14:00",
+            "end_time": "15:50",
+            "days": [
+                "TUE",
+                "THU"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 8,
+            "name": "DBMS 110",
+            "instructor": "Bruce Wayne",
+            "location": "Gotham",
+            "style": "Traditional",
+            "start_time": "09:00",
+            "end_time": "12:50",
+            "days": [
+                "SAT"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 9,
+            "name": "DESN 220",
+            "instructor": "Mark Zuckerberg",
+            "location": "Plainfield",
+            "style": "Learn Anywhere",
+            "start_time": "13:00",
+            "end_time": "16:30",
+            "days": [
+                "FRI"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 10,
+            "name": "DESN 220",
+            "instructor": "Steve Jobs Jr.",
+            "location": "Indianapolis",
+            "style": "Traditional",
+            "start_time": "18:00",
+            "end_time": "19:30",
+            "days": [
+                "TUE",
+                "THU"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 11,
+            "name": "DESN 220",
+            "instructor": "Elon Musk",
+            "location": "Franklin",
+            "style": "Online Only",
+            "start_time": "14:00",
+            "end_time": "17:30",
+            "days": [
+                "SAT"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 12,
+            "name": "ENGR 195",
+            "instructor": "Henry Ford",
+            "location": "Plainfield",
+            "style": "Online Only",
+            "start_time": "20:00",
+            "end_time": "22:00",
+            "days": [
+                "TUE",
+                "THU"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 13,
+            "name": "ENGR 195",
+            "instructor": "Nikola Tesla",
+            "location": "Columbus",
+            "style": "Virtual Instruction",
+            "start_time": "13:00",
+            "end_time": "15:50",
+            "days": [
+                "WED"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 14,
+            "name": "ENGR 195",
+            "instructor": "Alexander Graham Bell",
+            "location": "Muncie",
+            "style": "Traditional",
+            "start_time": "09:00",
+            "end_time": "11:00",
+            "days": [
+                "MON",
+                "FRI"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 15,
+            "name": "HVAC 170",
+            "instructor": "Willis Carrier",
+            "location": "Plainfield",
+            "style": "Traditional",
+            "start_time": "14:00",
+            "end_time": "16:00",
+            "days": [
+                "TUE",
+                "THU"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 16,
+            "name": "HVAC 170",
+            "instructor": "Diana Prince",
+            "location": "Themyscira",
+            "style": "Virtual Instruction",
+            "start_time": "15:00",
+            "end_time": "17:50",
+            "days": [
+                "WED"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 17,
+            "name": "HVAC 170",
+            "instructor": "Jon Snow",
+            "location": "Salt Lake City",
+            "style": "Virtual Instruction",
+            "start_time": "11:00",
+            "end_time": "13:00",
+            "days": [
+                "MON",
+                "FRI"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 18,
+            "name": "LEGS 170",
+            "instructor": "Camilla Vasquez Ford",
+            "location": "Albany",
+            "style": "Virtual Instruction",
+            "start_time": "08:00",
+            "end_time": "12:00",
+            "days": [
+                "FRI"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 19,
+            "name": "LEGS 170",
+            "instructor": "Johnnie Cochran",
+            "location": "New York City",
+            "style": "Online Only",
+            "start_time": "13:00",
+            "end_time": "17:00",
+            "days": [
+                "WED"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 20,
+            "name": "LEGS 170",
+            "instructor": "Analise Keating",
+            "location": "Minneapolis",
+            "style": "Virtual Instruction",
+            "start_time": "15:00",
+            "end_time": "19:00",
+            "days": [
+                "MON"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 21,
+            "name": "MATH 137",
+            "instructor": "Keneisha E",
+            "location": "Fort Wayne",
+            "style": "Learn Anywhere",
+            "start_time": "09:00",
+            "end_time": "13:00",
+            "days": [
+                "MON",
+                "THU"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 22,
+            "name": "MATH 137",
+            "instructor": "Milford Hutsell",
+            "location": "Columbus",
+            "style": "Online Only",
+            "start_time": "18:00",
+            "end_time": "20:50",
+            "days": [
+                "MON",
+                "WED"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 23,
+            "name": "MATH 137",
+            "instructor": "Mike Gorsline",
+            "location": "N Meridian",
+            "style": "Traditional",
+            "start_time": "14:00",
+            "end_time": "17:00",
+            "days": [
+                "MON",
+                "WED"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 24,
+            "name": "SDEV 220",
+            "instructor": "Feihong Liu",
+            "location": "Fort Wayne",
+            "style": "Virtual Instruction",
+            "start_time": "15:00",
+            "end_time": "17:50",
+            "days": [
+                "MON",
+                "WED"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 25,
+            "name": "SDEV 220",
+            "instructor": "Tim Tim",
+            "location": "Columbus",
+            "style": "Online Only",
+            "start_time": "18:00",
+            "end_time": "20:50",
+            "days": [
+                "THU",
+                "MON"
+            ],
+            "credit_hours": 3
+        },
+        {
+            "id": 26,
+            "name": "SDEV 220",
+            "instructor": "Tom Tom",
+            "location": "N Meridian",
+            "style": "Virtual Instruction",
+            "start_time": "13:00",
+            "end_time": "16:00",
+            "days": [
+                "TUE",
+                "WED"
+            ],
+            "credit_hours": 3
+        }
+    ]
+}

@@ -270,81 +270,81 @@ class CourseFrame(tk.Frame):
 
 class Acct101Page(CourseFrame):
         def __init__(self, parent, controller):
-                course_list = ["ACCT101 - Virtual - Sean Carter - M,W 10:00am-12:00pm - FortWayne - 8Wks - 3credits",
-                               "ACCT101 - Learn Anywhere - Kim Kardashian - T,R 1:00pm-3:00pm - Columbus - 16Wks - 3credits",
-                               "ACCT101 - Traditional - Curtis Jackson - F 3:00pm-6:00pm - N Meridian - 8Wks - 3credits"]
+                course_list = ["ACCT 101 - Virtual - Sean Carter - M,W 10:00am-12:00pm - FortWayne - 8Wks - 3 credits",
+                               "ACCT 101 - Learn Anywhere - Kim Kardashian - T,R 1:00pm-3:00pm - Columbus - 16Wks - 3 credits",
+                               "ACCT 101 - Traditional - Curtis Jackson - F 3:00pm-6:00pm - N Meridian - 8Wks - 3 credits"]
 
                 CourseFrame.__init__(self, parent, controller, course_name="ACCT 101", course_list=course_list, course_index=0)
 
 
 class Bio101Page(CourseFrame):
         def __init__(self, parent, controller):
-                course_list = ["BIO101 - Traditional - Nye Bill - M,W 1:00pm-4:30pm - FortWayne - 8Wks - 3credits",
-                          "BIO101 - Virtual - Professor X - T,R 6:00pm-9:30pm - Columbus - 16Wks - 3credits",
-                          "BIO101 - Traditional - Bill Nye - T 1:00pm-5:00pm - N Meridian - 8Wks - 3credits"]
+                course_list = ["BIO 101 - Traditional - Nye Bill - M,W 1:00pm-4:30pm - FortWayne - 8Wks - 3 credits",
+                          "BIO 101 - Virtual - Professor X - T,R 6:00pm-9:30pm - Columbus - 16Wks - 3 credits",
+                          "BIO 101 - Traditional - Bill Nye - T 1:00pm-5:00pm - N Meridian - 8Wks - 3 credits"]
 
                 CourseFrame.__init__(self, parent, controller, course_name="BIO 101", course_list=course_list, course_index=1)
 
 
 class Dbms110Page(CourseFrame):
         def __init__(self, parent, controller):
-                course_list = ["DBMS110 - Traditional - Anthony Stark - F 2:00pm-5:50pm - New York City - 16Wks - 3credits",
-                          "DBMS110 - Virtual -  Stark Anthony - T,R 2:00pm-3:50pm - New York City - 8Wks - 3credits",
-                          "DBMS110 - Traditional - Bruce Wayne - S 9:00am-12:50pm - Gotham - 16Wks - 3credits"]
+                course_list = ["DBMS 110 - Traditional - Anthony Stark - F 2:00pm-5:50pm - New York City - 16Wks - 3 credits",
+                          "DBMS 110 - Virtual -  Stark Anthony - T,R 2:00pm-3:50pm - New York City - 8Wks - 3 credits",
+                          "DBMS 110 - Traditional - Bruce Wayne - S 9:00am-12:50pm - Gotham - 16Wks - 3 credits"]
 
                 CourseFrame.__init__(self, parent, controller, course_name="DBMS 110", course_list=course_list, course_index=2)
 
 
 class Desn220Page(CourseFrame):
         def __init__(self, parent, controller):
-                course_list = ["DESN220 - Anywhere - Mark Zuckerberg - F 1:00pm-4:30pm - Plainfield - 16Wks - 3credits",
-                           "DESN220 - Traditional - Steve Jobs Jr. - T,R 6:00pm-7:30pm - Indianapolis - 8Wks - 3credits",
-                           "DESN220 - Online - Elon Musk - S 2:00pm-5:30pm - Franklin - 16Wks - 3credits"]
+                course_list = ["DESN 220 - Anywhere - Mark Zuckerberg - F 1:00pm-4:30pm - Plainfield - 16Wks - 3 credits",
+                           "DESN 220 - Traditional - Steve Jobs Jr. - T,R 6:00pm-7:30pm - Indianapolis - 8Wks - 3 credits",
+                           "DESN 220 - Online - Elon Musk - S 2:00pm-5:30pm - Franklin - 16Wks - 3 credits"]
 
                 CourseFrame.__init__(self, parent, controller, course_name="DESN 220", course_list=course_list, course_index=3)
 
 
 class Engr195Page(CourseFrame):
         def __init__(self, parent, controller):
-                course_list = ["ENGR195 - Online - Henry Ford - T,R 8:00pm-10:00pm - Plainfield - 16Wks - 3credits",
-                          "ENGR195 - Virtual - Nikola Tesla - W 1:00pm-3:50pm - Columbus - 8Wks - 3credits",
-                          "ENGR195 - Traditional - Alexander Graham Bell - M,F 9:00am-11:00am - Muncie - 16Wks - 3credits"]
+                course_list = ["ENGR 195 - Online - Henry Ford - T,R 8:00pm-10:00pm - Plainfield - 16Wks - 3 credits",
+                          "ENGR 195 - Virtual - Nikola Tesla - W 1:00pm-3:50pm - Columbus - 8Wks - 3 credits",
+                          "ENGR 195 - Traditional - Alexander Graham Bell - M,F 9:00am-11:00am - Muncie - 16Wks - 3 credits"]
 
                 CourseFrame.__init__(self, parent, controller, course_name="ENGR 195", course_list=course_list, course_index=4)
 
 
 class Hvac171Page(CourseFrame):
         def __init__(self, parent, controller):
-                course_list = ["HVAC170 - Traditional - Willis Carrier - T,R 2:00pm-4:00pm - Plainfield - 16Wks - 3credits",
-                          "HVAC170 - Virtual - Diana Prince - W 3:00pm-5:50pm - Themyscira - 8Wks - 3credits",
-                          "HVAC170 - Virtual - Jon Snow - M,F 11:00am-1:00pm - Salt Lake City - 16Wks - 3credits"]
+                course_list = ["HVAC 170 - Traditional - Willis Carrier - T,R 2:00pm-4:00pm - Plainfield - 16Wks - 3 credits",
+                          "HVAC 170 - Virtual - Diana Prince - W 3:00pm-5:50pm - Themyscira - 8Wks - 3 credits",
+                          "HVAC 170 - Virtual - Jon Snow - M,F 11:00am-1:00pm - Salt Lake City - 16Wks - 3 credits"]
 
                 CourseFrame.__init__(self, parent, controller, course_name="HVAC 171", course_list=course_list, course_index=5)
 
 
 class Legs170Page(CourseFrame):
         def __init__(self, parent, controller):
-                course_list = ["LEGS170 - Virtual - Camilla Vasquez Ford - F 8:00am-12:00pm - Albany - 16Wks - 3credits",
-                          "LEGS170 - Online - Johnnie Cochran - W 1:00pm-5:00pm - New York City - 16Wks - 3credits",
-                          "LEGS170 - Virtual - Analise Keating - M 3:00pm-7:00pm - Minneapolis - 16Wks - 3credits"]
+                course_list = ["LEGS 170 - Virtual - Camilla Vasquez Ford - F 8:00am-12:00pm - Albany - 16Wks - 3 credits",
+                          "LEGS 170 - Online - Johnnie Cochran - W 1:00pm-5:00pm - New York City - 16Wks - 3 credits",
+                          "LEGS 170 - Virtual - Analise Keating - M 3:00pm-7:00pm - Minneapolis - 16Wks - 3 credits"]
 
                 CourseFrame.__init__(self, parent, controller, course_name="LEGS 170", course_list=course_list, course_index=6)
 
 
 class Math137Page(CourseFrame):
         def __init__(self, parent, controller):
-                course_list = ["MATH137 - Anywhere - Keneisha E - M,TH 9:00am-1:00pm - FortWayne - 16Wks - 3 credits",
-                           "MATH137 - Online - Milford Hutsell - M,W 6:00pm-8:50pm - Columbus - 2nd 8Wks - 3credits",
-                           "MATH137 - Traditional - Mike Gorsline - m,w 2:00pm-5:00pm - N Meridian - 1st 8Wks - 3credits"]
+                course_list = ["MATH 137 - Anywhere - Keneisha E - M,TH 9:00am-1:00pm - FortWayne - 16Wks - 3 credits",
+                           "MATH 137 - Online - Milford Hutsell - M,W 6:00pm-8:50pm - Columbus - 2nd 8Wks - 3 credits",
+                           "MATH 137 - Traditional - Mike Gorsline - M,W 2:00pm-5:00pm - N Meridian - 1st 8Wks - 3 credits"]
 
                 CourseFrame.__init__(self, parent, controller, course_name="MATH 137", course_list=course_list, course_index=7)
 
 
 class Sdev220Page(CourseFrame):
         def __init__(self, parent, controller):
-                course_list = ["SDEV220 - Virtual - Feihong Liu - M,W 3:00pm-5:50pm - FortWayne - 8Wks - 3 credits", 
-                               "SDEV220 - Online - Tim Tim - TH,M 6:00pm-8:50pm - Columbus - 16Wks - 3 credits", 
-                               "SDEV220 - Virtual - Tom Tom - TU,W 1:00pm-4:00pm - N Meridian - 8Wks - 3 credits"]
+                course_list = ["SDEV 220 - Virtual - Feihong Liu - M,W 3:00pm-5:50pm - FortWayne - 8Wks - 3 credits", 
+                               "SDEV 220 - Online - Tim Tim - TH,M 6:00pm-8:50pm - Columbus - 16Wks - 3 credits", 
+                               "SDEV 220 - Virtual - Tom Tom - TU,W 1:00pm-4:00pm - N Meridian - 8Wks - 3 credits"]
 
                 CourseFrame.__init__(self, parent, controller, course_name="SDEV 220", course_list=course_list, course_index=8)
 

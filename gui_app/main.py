@@ -11,7 +11,6 @@ GUI includes:
 
 from course_manager.gui import CourseApp
 
-
 def main() -> None:
     """Runs the gui app"""
     CourseApp().mainloop()
