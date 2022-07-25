@@ -8,6 +8,9 @@ from tkinter import Frame, ttk, font, ANCHOR
 from .classes import Student
 from .resources import load_json, save_json
 
+# Creat names and pin for the users to login {"username":"Pin"}
+print({"yahya": "1111", "gunnar": "2222", "alvin": "3333", "shanika": "4444"})
+
 
 # the current logged-in user
 active_user:Student = None
@@ -88,7 +91,7 @@ class StartPage(tk.Frame):
                 self.controller.state('normal')
 
                 # notebook for just the login page
-                login_notebook = ttk.Notebook(self, width=638, height=395)
+                login_notebook = ttk.Notebook(self, width=665, height=410)
                 login_notebook.pack()
                 
                 login_tab = Frame(login_notebook, bg="#003366",)
@@ -96,8 +99,8 @@ class StartPage(tk.Frame):
                 login_notebook.add(login_tab, text="Login")
 
 
-                # header labels
-                header_lbl = tk.Label(login_tab, text="IVY Courses Registration", fg='white', bg='#660066', font=('bold', 45))
+                # header labels #660066
+                header_lbl = tk.Label(login_tab, text="IVY Courses Registration", fg='white', bg='#003366', font=('bold', 45))
                 header_lbl.pack()
 
                 selection_lbl = tk.Label(login_tab, text="Log In to Your Account:", fg='white', bg='#003366', font=('bold', 20), anchor='w')
@@ -180,7 +183,7 @@ class CoursesPage(tk.Frame):
 
 
                 # create a notebook and its tab frames
-                notebook = ttk.Notebook(self, width=638, height=395)
+                notebook = ttk.Notebook(self, width=665, height=410)
                 notebook.pack()
 
                 courses_tab = Frame(notebook, bg='#003366')
@@ -195,7 +198,7 @@ class CoursesPage(tk.Frame):
                 
 
                 # labels for the courses tab
-                courses_header_lbl = tk.Label(courses_tab, text="IVY Courses", width=600, fg='white', bg='#660066', font=('bold', 30))
+                courses_header_lbl = tk.Label(courses_tab, text="IVY Courses", width=600, fg='white', bg='#003366', font=('bold', 30))
                 courses_header_lbl.pack()
 
                 selection_lbl= tk.Label(courses_tab, text="Select a course to enroll in", fg='white', bg='#003366', font=('bold', 20), anchor='w')
@@ -205,15 +208,15 @@ class CoursesPage(tk.Frame):
                 # make course buttons using a for loop
                 # (class, x, y)
                 button_values = (
-                        (Acct101Page, 0,   100),
-                        (Bio101Page,  210, 100),
-                        (Dbms110Page, 420, 100),
-                        (Desn220Page, 0,   178),
-                        (Engr195Page, 210, 178),
-                        (Hvac170Page, 420, 178),
-                        (Legs170Page, 0,   256),
-                        (Math137Page, 210, 256),
-                        (Sdev220Page, 420, 256),
+                        (Acct101Page, 10,   100),
+                        (Bio101Page,  220, 100),
+                        (Dbms110Page, 435, 100),
+                        (Desn220Page, 10,   178),
+                        (Engr195Page, 220, 178),
+                        (Hvac170Page, 435, 178),
+                        (Legs170Page, 10,   256),
+                        (Math137Page, 220, 256),
+                        (Sdev220Page, 435, 256),
                 )
                 
                 for (cls, x, y) in button_values:
@@ -231,7 +234,7 @@ class CoursesPage(tk.Frame):
 
                 logout_button = tk.Button(courses_tab, text="Log Out", command=log_out, 
                                         relief='raised', borderwidth=2, width=10, height=2)
-                logout_button.place(x=515, y=0)
+                logout_button.place(x=551, y=0)
 
 
 
@@ -243,7 +246,7 @@ class CourseFrame(tk.Frame):
                 self.controller=controller
 
                 # create a notebook just for this course
-                this_course_notebook = ttk.Notebook(self, width=638, height=395)
+                this_course_notebook = ttk.Notebook(self, width=665, height=410)
                 this_course_notebook.pack()
                 
                 this_course_tab = Frame(this_course_notebook, bg="#003366")
@@ -258,8 +261,8 @@ class CourseFrame(tk.Frame):
 
 
                 # listbox
-                bold_font = font.Font(weight='bold')
-                course_listbox = tk.Listbox(this_course_tab, font=bold_font, relief='raised', borderwidth=4, width=70, height=4, selectmode=tk.BROWSE)
+                #bold_font = font.Font(weight='bold')
+                course_listbox = tk.Listbox(this_course_tab, relief='raised', borderwidth=4, width=73, height=4, selectmode=tk.BROWSE)
                 course_listbox.place(x=0, y=30)
                 
                 for course in course_list:
@@ -316,13 +319,13 @@ class CourseFrame(tk.Frame):
 
                 # display the enrolled class
                 enrolled_course_lbl = tk.Label(this_course_tab, text='Enrolled class will appear here.', fg='white', bg='#333333', 
-                                               borderwidth=5, relief='raised', width=65, height=2)
-                enrolled_course_lbl.place(x=7, y=120)
+                                               borderwidth=5, relief='raised', width=69, height=2)
+                enrolled_course_lbl.place(x=4, y=120)
 
 
                 # display the enrolled class in the schedule
-                schedule_lbl = tk.Label(schedule_tab, text='Enrolled class will appear here.', fg='white', bg='#333333', borderwidth=5, relief='raised', width=65, height=2)
-                schedule_lbl.place(x=7, y=45*course_index+2)
+                schedule_lbl = tk.Label(schedule_tab, text='Enrolled class will appear here.', fg='white', bg='#333333', borderwidth=5, relief='raised', width=69, height=2)
+                schedule_lbl.place(x=4, y=45*course_index+2)
 
 
                 # back button
