@@ -1,15 +1,5 @@
 """
-Course Manager
-07/24/2022
-version 3.0
-Authors:  Yahya G. Alrobaie, Gunnar Dahl, Alvin Hampton, Shanika N. Person
-
-This program allows users to view and enroll in college courses.
-
-GUI includes: 
-- Login window that authenticates users
-- Course tab that allows the user to view and select courses to enroll in
-- Schedule tab that allows the user to view the courses they are enrolled in
+tkinter gui
 """
 
 import tkinter as tk
@@ -21,18 +11,16 @@ from .resources import load_json, save_json
 
 # the current logged-in user
 active_user:Student = None
-print(f'active user: {active_user}')
 
 
 def on_closing(frame, courses, students):
+        """Saves and closes the app"""
         save_json(courses, students)
         frame.quit()
 
 
+
 class CourseApp(tk.Tk):
-
-        
-
         def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)
 
@@ -78,6 +66,7 @@ class CourseApp(tk.Tk):
                 frame.tkraise()
                 if isinstance(frame, CourseFrame):
                         frame.update_elements()
+
 
 
 class StartPage(tk.Frame):
@@ -148,7 +137,6 @@ class StartPage(tk.Frame):
                                 controller.show_frame('CoursesPage')
                                 global active_user
                                 active_user = found_user
-                                print(f'active user: {active_user}')
 
                         else:
                                 login_error_lbl['text']='Incorrect username or password'
@@ -175,7 +163,6 @@ class StartPage(tk.Frame):
                 # create a message label to display when the user enters an incorrect login 
                 login_error_lbl = tk.Label(login_tab, text="", fg='white', bg='#003366', font=('bold', 22), anchor='n')
                 login_error_lbl.place(x=180, y=220)
-
 
 
 
@@ -229,11 +216,10 @@ class CoursesPage(tk.Frame):
                         button.place(x=x, y=y)
 
 
-                # make an logout button  
+                # make a logout button  
                 def log_out():
                         global active_user
                         active_user = None
-                        print(f'active user: {active_user}')
                         controller.show_frame('StartPage')
 
                 logout_button = tk.Button(courses_tab, text="Log Out", command=log_out, 
@@ -282,7 +268,6 @@ class CourseFrame(tk.Frame):
                                 if str(offered_course) == selected_item:
                                         active_user.courses.append(offered_course)
                                         break
-                        print(f'active user: {active_user}')
 
                         update_elements()
 
@@ -292,7 +277,6 @@ class CourseFrame(tk.Frame):
                                 if offered_course in active_user.courses:
                                         active_user.courses.remove(offered_course)
                                         break
-                        print(f'active user: {active_user}')
 
                         update_elements()
 
@@ -338,6 +322,7 @@ class CourseFrame(tk.Frame):
                 back_button = tk.Button(this_course_tab, text="Back", relief='raised', borderwidth=3, width=15, height=3, 
                                         command=lambda:controller.show_frame('CoursesPage'))
                 back_button.place(x=420, y=180)
+
 
 
 # CourseFrame child classes
@@ -414,5 +399,3 @@ class Sdev220Page(CourseFrame):
                                  course_list=listbox_courses, course_index=course_index)
 
 
-if __name__ == "__main__":
-    print('please run the main.py file instead')
