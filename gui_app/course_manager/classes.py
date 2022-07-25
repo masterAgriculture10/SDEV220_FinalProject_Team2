@@ -108,16 +108,16 @@ class Student:
         return (True in pair_overlaps)
     
     def is_over_credit_limit(self) -> bool:
-        return sum(map(lambda c: c.credit_hours, self.courses)) > CREDIT_LIMIT
+        return sum([c.credit_hours for c in self.courses]) > CREDIT_LIMIT
 
     @classmethod
     def from_json(cls, json:Dict, all_courses:List[Course]) -> 'Student':
-        student_courses = list(filter(lambda course: course.id in json['courses'], all_courses))
+        student_courses = [c for c in all_courses if c.id in json['courses']]
         return cls(json['username'], json['password'], student_courses)
     
     def to_json(self, all_courses: List[Course]) -> Dict:
-        def find_course_by_name(course:Course, course_list:List[Course]):
-            return next(filter(lambda c: c.name==course.name, course_list))
-        id_list = list(map(lambda c:find_course_by_name(c, all_courses).id, self.courses))
+        def find_course_by_name(search_name:str, course_list:List[Course]):
+            return [c for c in course_list if c.name == search_name][0]
+        id_list = [find_course_by_name(c.name, all_courses).id for c in self.courses]
         
         return {'username':self.username, 'password':self.password, 'courses':id_list}

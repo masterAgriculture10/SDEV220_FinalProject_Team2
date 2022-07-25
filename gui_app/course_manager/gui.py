@@ -49,7 +49,7 @@ class CourseApp(tk.Tk):
 
                         if issubclass(F, CourseFrame):
                                 # pass in courses with the same name as the class to put in listbox
-                                filtered_courses = list(filter(lambda c, F=F: c.name == F.name, courses))
+                                filtered_courses = [c for c in courses if c.name == F.name]
                                 frame = F(parent=container, controller=self, listbox_courses=filtered_courses, course_index=i)
                                 i += 1
                         elif issubclass(F, StartPage):
@@ -119,8 +119,7 @@ class StartPage(tk.Frame):
 
 
                 def find_user(username, password, users):
-                        is_match = lambda user: user.username==username and user.password==password
-                        matching_users = list(filter(is_match, users))
+                        matching_users = [u for u in users if u.username==username and u.password==password]
                         return matching_users[0] if len(matching_users) != 0 else None
                 
                 
