@@ -50,7 +50,7 @@ class Course:
         s += f'{format_time(self.start_time)}-{format_time(self.end_time)} - '
         for day in self.days:
             s += day.name.capitalize() + ','
-        return s[:-2] + f' - {self.credit_hours} credit hours'
+        return s[:-1] + f' - {self.credit_hours} credit hours'
 
     def overlaps_with(self, other:'Course') -> bool:
         """whether another course's time and day overlap with this one's"""
