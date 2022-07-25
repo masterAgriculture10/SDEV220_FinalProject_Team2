@@ -42,6 +42,16 @@ class Course:
         self.days = days
         self.credit_hours = credit_hours
 
+    def __str__(self) -> str:
+        def format_time(t:time) -> str:
+            return t.strftime("%I:%M%p").lower().strip('0')
+        
+        s = f'{self.name} - {self.style} - {self.instructor} - {self.location} - '
+        s += f'{format_time(self.start_time)}-{format_time(self.end_time)} - '
+        for day in self.days:
+            s += day.name.capitalize() + ','
+        return s[:-2] + f' - {self.credit_hours} credit hours'
+
     def overlaps_with(self, other:'Course') -> bool:
         """whether another course's time and day overlap with this one's"""
         if len(set(self.days).intersection(set(other.days))) == 0:

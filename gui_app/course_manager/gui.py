@@ -15,14 +15,15 @@ GUI includes:
 import tkinter as tk
 from tkinter import Frame, ttk, font, ANCHOR
 
-
-database = {"yahya": "1111", "gunnar": "2222", "alvin": "3333", "shanika": "4444"}
-print(f'account details: {database}')
+from .resources import load_json
 
 
 class CourseApp(tk.Tk):
         def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)
+
+                # load from json file
+                courses, students = load_json()
 
                 # the container is where we'll stack a bunch of frames
                 # on top of each other, then the one we want visible
@@ -37,9 +38,20 @@ class CourseApp(tk.Tk):
                 # the one on the top of the stacking order
                 # will be the one that is visible.
                 self.frames = {}
-                for F in (StartPage, CoursesPage, Acct101Page, Bio101Page, Dbms110Page, Desn220Page, Engr195Page, Hvac171Page, Legs170Page, Math137Page, Sdev220Page):
+                i = 0
+                for F in (StartPage, CoursesPage, Acct101Page, Bio101Page, Dbms110Page, Desn220Page, Engr195Page, Hvac170Page, Legs170Page, Math137Page, Sdev220Page):
                         page_name = F.__name__
-                        frame = F(parent=container, controller=self)
+
+                        if issubclass(F, CourseFrame):
+                                # pass in courses with the same name as the class to put in listbox
+                                filtered_courses = list(filter(lambda c, F=F: c.name == F.name, courses))
+                                frame = F(parent=container, controller=self, listbox_courses=filtered_courses, course_index=i)
+                                i += 1
+                        elif issubclass(F, StartPage):
+                                frame = F(parent=container, controller=self, users=students)
+                        else:
+                                frame = F(parent=container, controller=self)
+
                         self.frames[page_name] = frame
                         frame.grid(row=0, column=0, sticky="nsew")
                 
@@ -54,7 +66,7 @@ class CourseApp(tk.Tk):
 
 class StartPage(tk.Frame):
         """A frame that contains the elements of the login screen"""
-        def __init__(self, parent, controller):
+        def __init__(self, parent, controller, users):
                 # the Frame that controls everything we add to the page
                 tk.Frame.__init__(self, parent, bg='#003366')
                 self.controller=controller
@@ -99,20 +111,29 @@ class StartPage(tk.Frame):
                 password_entry_box.place(x=170, y=190)
 
 
-                def login_check():
+                def find_user(username, password, users):
+                        is_match = lambda user: user.username==username and user.password==password
+                        matching_users = list(filter(is_match, users))
+                        return matching_users[0] if len(matching_users) != 0 else None
+                
+                
+                def try_login():
                         """validates the input credentials"""
-                        if username.get() in database :
-                                if database[username.get()] == password.get() :
-                                        password.set('')  
-                                        username.set('')
-                                        incorrect_login_label['text']=''
-                                        controller.show_frame('CoursesPage')
-                                else:
-                                        incorrect_login_label['text']='Incorrect username or password'
-                        elif password.get() == '' and username.get() == '':
-                                incorrect_login_label['text']='Enter your username and password'
+                        input_username = username.get()
+                        input_password = password.get()
+
+                        password.set('')
+
+                        if input_username == input_password == '':
+                                login_error_lbl['text']='Enter your username and password'
+
+                        elif (found_user := find_user(input_username, input_password, users)) is not None:
+                                username.set('')
+                                login_error_lbl['text']=''
+                                controller.show_frame('CoursesPage')
+
                         else:
-                                incorrect_login_label['text']='Incorrect username or password'
+                                login_error_lbl['text']='Incorrect username or password'
 
 
                 def clear_text():
@@ -122,7 +143,7 @@ class StartPage(tk.Frame):
                 
 
                 # submit, exit, clear buttons
-                submit_button = tk.Button(login_tab, text='Enter', command=login_check, relief='raised', width=10, height=2, borderwidth=3)
+                submit_button = tk.Button(login_tab, text='Enter', command=try_login, relief='raised', width=10, height=2, borderwidth=3)
                 submit_button.place(x=45, y=270)
 
                 clear_button = tk.Button(login_tab, text="Clear", command=clear_text, relief='raised', width=10, height=2, borderwidth=3)
@@ -133,8 +154,8 @@ class StartPage(tk.Frame):
 
 
                 # create a message label to display when the user enters an incorrect login 
-                incorrect_login_label = tk.Label(login_tab, text="", fg='white', bg='#003366', font=('bold', 22), anchor='n')
-                incorrect_login_label.place(x=180, y=220)
+                login_error_lbl = tk.Label(login_tab, text="", fg='white', bg='#003366', font=('bold', 22), anchor='n')
+                login_error_lbl.place(x=180, y=220)
 
 
 
@@ -169,22 +190,22 @@ class CoursesPage(tk.Frame):
 
 
                 # make course buttons using a for loop
-                # (button text, class name, x, y)
+                # (class, x, y)
                 button_values = (
-                        ('ACCT 101', 'Acct101Page', 0,   100),
-                        ('BIO 101',  'Bio101Page',  210, 100),
-                        ('DBMS 110', 'Dbms110Page', 420, 100),
-                        ('DESN 220', 'Desn220Page', 0,   178),
-                        ('ENGR 195', 'Engr195Page', 210, 178),
-                        ('HVAC 171', 'Hvac171Page', 420, 178),
-                        ('LEGS 170', 'Legs170Page', 0,   256),
-                        ('MATH 137', 'Math137Page', 210, 256),
-                        ('SDEV 220', 'Sdev220Page', 420, 256),
+                        (Acct101Page, 0,   100),
+                        (Bio101Page,  210, 100),
+                        (Dbms110Page, 420, 100),
+                        (Desn220Page, 0,   178),
+                        (Engr195Page, 210, 178),
+                        (Hvac170Page, 420, 178),
+                        (Legs170Page, 0,   256),
+                        (Math137Page, 210, 256),
+                        (Sdev220Page, 420, 256),
                 )
                 
-                for (button_text, cls_name, x, y) in button_values:
-                        button = tk.Button(courses_tab, text=button_text, 
-                                                command=lambda cls_name=cls_name:controller.show_frame(cls_name), 
+                for (cls, x, y) in button_values:
+                        button = tk.Button(courses_tab, text=cls.name, 
+                                                command=lambda cls_name=cls.__name__:controller.show_frame(cls_name), 
                                                 relief='raised', borderwidth=3, width=20, height=4)
                         button.place(x=x, y=y)
 
@@ -225,7 +246,7 @@ class CourseFrame(tk.Frame):
                 course_listbox.place(x=0, y=30)
                 
                 for course in course_list:
-                        course_listbox.insert(tk.END, course)
+                        course_listbox.insert(tk.END, str(course))
 
 
                 # enroll & unenroll buttons
@@ -269,84 +290,75 @@ class CourseFrame(tk.Frame):
 # CourseFrame child classes
 
 class Acct101Page(CourseFrame):
-        def __init__(self, parent, controller):
-                course_list = ["ACCT 101 - Virtual - Sean Carter - M,W 10:00am-12:00pm - FortWayne - 8Wks - 3 credits",
-                               "ACCT 101 - Learn Anywhere - Kim Kardashian - T,R 1:00pm-3:00pm - Columbus - 16Wks - 3 credits",
-                               "ACCT 101 - Traditional - Curtis Jackson - F 3:00pm-6:00pm - N Meridian - 8Wks - 3 credits"]
+        name = "ACCT 101"
 
-                CourseFrame.__init__(self, parent, controller, course_name="ACCT 101", course_list=course_list, course_index=0)
+        def __init__(self, parent, controller, listbox_courses, course_index):
+                super().__init__(parent, controller, course_name=self.name, 
+                                 course_list=listbox_courses, course_index=course_index)
 
 
 class Bio101Page(CourseFrame):
-        def __init__(self, parent, controller):
-                course_list = ["BIO 101 - Traditional - Nye Bill - M,W 1:00pm-4:30pm - FortWayne - 8Wks - 3 credits",
-                          "BIO 101 - Virtual - Professor X - T,R 6:00pm-9:30pm - Columbus - 16Wks - 3 credits",
-                          "BIO 101 - Traditional - Bill Nye - T 1:00pm-5:00pm - N Meridian - 8Wks - 3 credits"]
+        name = "BIO 101"
 
-                CourseFrame.__init__(self, parent, controller, course_name="BIO 101", course_list=course_list, course_index=1)
+        def __init__(self, parent, controller, listbox_courses, course_index):
+                super().__init__(parent, controller, course_name=self.name, 
+                                 course_list=listbox_courses, course_index=course_index)
 
 
 class Dbms110Page(CourseFrame):
-        def __init__(self, parent, controller):
-                course_list = ["DBMS 110 - Traditional - Anthony Stark - F 2:00pm-5:50pm - New York City - 16Wks - 3 credits",
-                          "DBMS 110 - Virtual -  Stark Anthony - T,R 2:00pm-3:50pm - New York City - 8Wks - 3 credits",
-                          "DBMS 110 - Traditional - Bruce Wayne - S 9:00am-12:50pm - Gotham - 16Wks - 3 credits"]
+        name = "DBMS 110"
 
-                CourseFrame.__init__(self, parent, controller, course_name="DBMS 110", course_list=course_list, course_index=2)
+        def __init__(self, parent, controller, listbox_courses, course_index):
+                super().__init__(parent, controller, course_name=self.name, 
+                                 course_list=listbox_courses, course_index=course_index)
 
 
 class Desn220Page(CourseFrame):
-        def __init__(self, parent, controller):
-                course_list = ["DESN 220 - Anywhere - Mark Zuckerberg - F 1:00pm-4:30pm - Plainfield - 16Wks - 3 credits",
-                           "DESN 220 - Traditional - Steve Jobs Jr. - T,R 6:00pm-7:30pm - Indianapolis - 8Wks - 3 credits",
-                           "DESN 220 - Online - Elon Musk - S 2:00pm-5:30pm - Franklin - 16Wks - 3 credits"]
+        name = "DESN 220"
 
-                CourseFrame.__init__(self, parent, controller, course_name="DESN 220", course_list=course_list, course_index=3)
+        def __init__(self, parent, controller, listbox_courses, course_index):
+                super().__init__(parent, controller, course_name=self.name, 
+                                 course_list=listbox_courses, course_index=course_index)
 
 
 class Engr195Page(CourseFrame):
-        def __init__(self, parent, controller):
-                course_list = ["ENGR 195 - Online - Henry Ford - T,R 8:00pm-10:00pm - Plainfield - 16Wks - 3 credits",
-                          "ENGR 195 - Virtual - Nikola Tesla - W 1:00pm-3:50pm - Columbus - 8Wks - 3 credits",
-                          "ENGR 195 - Traditional - Alexander Graham Bell - M,F 9:00am-11:00am - Muncie - 16Wks - 3 credits"]
+        name = "ENGR 195"
 
-                CourseFrame.__init__(self, parent, controller, course_name="ENGR 195", course_list=course_list, course_index=4)
+        def __init__(self, parent, controller, listbox_courses, course_index):
+                super().__init__(parent, controller, course_name=self.name, 
+                                 course_list=listbox_courses, course_index=course_index)
 
 
-class Hvac171Page(CourseFrame):
-        def __init__(self, parent, controller):
-                course_list = ["HVAC 170 - Traditional - Willis Carrier - T,R 2:00pm-4:00pm - Plainfield - 16Wks - 3 credits",
-                          "HVAC 170 - Virtual - Diana Prince - W 3:00pm-5:50pm - Themyscira - 8Wks - 3 credits",
-                          "HVAC 170 - Virtual - Jon Snow - M,F 11:00am-1:00pm - Salt Lake City - 16Wks - 3 credits"]
+class Hvac170Page(CourseFrame):
+        name = "HVAC 170"
 
-                CourseFrame.__init__(self, parent, controller, course_name="HVAC 171", course_list=course_list, course_index=5)
+        def __init__(self, parent, controller, listbox_courses, course_index):
+                super().__init__(parent, controller, course_name=self.name, 
+                                 course_list=listbox_courses, course_index=course_index)
 
 
 class Legs170Page(CourseFrame):
-        def __init__(self, parent, controller):
-                course_list = ["LEGS 170 - Virtual - Camilla Vasquez Ford - F 8:00am-12:00pm - Albany - 16Wks - 3 credits",
-                          "LEGS 170 - Online - Johnnie Cochran - W 1:00pm-5:00pm - New York City - 16Wks - 3 credits",
-                          "LEGS 170 - Virtual - Analise Keating - M 3:00pm-7:00pm - Minneapolis - 16Wks - 3 credits"]
+        name = "LEGS 170"
 
-                CourseFrame.__init__(self, parent, controller, course_name="LEGS 170", course_list=course_list, course_index=6)
+        def __init__(self, parent, controller, listbox_courses, course_index):
+                super().__init__(parent, controller, course_name=self.name, 
+                                 course_list=listbox_courses, course_index=course_index)
 
 
 class Math137Page(CourseFrame):
-        def __init__(self, parent, controller):
-                course_list = ["MATH 137 - Anywhere - Keneisha E - M,TH 9:00am-1:00pm - FortWayne - 16Wks - 3 credits",
-                           "MATH 137 - Online - Milford Hutsell - M,W 6:00pm-8:50pm - Columbus - 2nd 8Wks - 3 credits",
-                           "MATH 137 - Traditional - Mike Gorsline - M,W 2:00pm-5:00pm - N Meridian - 1st 8Wks - 3 credits"]
+        name = "MATH 137"
 
-                CourseFrame.__init__(self, parent, controller, course_name="MATH 137", course_list=course_list, course_index=7)
+        def __init__(self, parent, controller, listbox_courses, course_index):
+                super().__init__(parent, controller, course_name=self.name, 
+                                 course_list=listbox_courses, course_index=course_index)
 
 
 class Sdev220Page(CourseFrame):
-        def __init__(self, parent, controller):
-                course_list = ["SDEV 220 - Virtual - Feihong Liu - M,W 3:00pm-5:50pm - FortWayne - 8Wks - 3 credits", 
-                               "SDEV 220 - Online - Tim Tim - TH,M 6:00pm-8:50pm - Columbus - 16Wks - 3 credits", 
-                               "SDEV 220 - Virtual - Tom Tom - TU,W 1:00pm-4:00pm - N Meridian - 8Wks - 3 credits"]
+        name = "SDEV 220"
 
-                CourseFrame.__init__(self, parent, controller, course_name="SDEV 220", course_list=course_list, course_index=8)
+        def __init__(self, parent, controller, listbox_courses, course_index):
+                super().__init__(parent, controller, course_name=self.name, 
+                                 course_list=listbox_courses, course_index=course_index)
 
 
 if __name__ == "__main__":
