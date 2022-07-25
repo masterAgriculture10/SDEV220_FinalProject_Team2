@@ -16,7 +16,7 @@ import tkinter as tk
 from tkinter import Frame, ttk, font, ANCHOR
 
 from .classes import Student
-from .resources import load_json
+from .resources import load_json, save_json
 
 
 # the current logged-in user
@@ -24,11 +24,20 @@ active_user:Student = None
 print(f'active user: {active_user}')
 
 
+def on_closing(frame, courses, students):
+        save_json(courses, students)
+        frame.quit()
+
+
 class CourseApp(tk.Tk):
+
+        
+
         def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)
 
                 courses, students = load_json()
+                self.protocol("WM_DELETE_WINDOW", lambda c=courses,s=students:on_closing(self,c,s))
 
                 # the container is where we'll stack a bunch of frames
                 # on top of each other, then the one we want visible
@@ -53,7 +62,7 @@ class CourseApp(tk.Tk):
                                 frame = F(parent=container, controller=self, listbox_courses=filtered_courses, course_index=i)
                                 i += 1
                         elif issubclass(F, StartPage):
-                                frame = F(parent=container, controller=self, users=students)
+                                frame = F(parent=container, controller=self, students=students, courses=courses)
                         else:
                                 frame = F(parent=container, controller=self)
 
@@ -73,7 +82,7 @@ class CourseApp(tk.Tk):
 
 class StartPage(tk.Frame):
         """A frame that contains the elements of the login screen"""
-        def __init__(self, parent, controller, users):
+        def __init__(self, parent, controller, students, courses):
                 # the Frame that controls everything we add to the page
                 tk.Frame.__init__(self, parent, bg='#003366')
                 self.controller=controller
@@ -133,7 +142,7 @@ class StartPage(tk.Frame):
                         if input_username == input_password == '':
                                 login_error_lbl['text']='Enter your username and password'
 
-                        elif (found_user := find_user(input_username, input_password, users)) is not None:
+                        elif (found_user := find_user(input_username, input_password, students)) is not None:
                                 username.set('')
                                 login_error_lbl['text']=''
                                 controller.show_frame('CoursesPage')
@@ -158,7 +167,8 @@ class StartPage(tk.Frame):
                 clear_button = tk.Button(login_tab, text="Clear", command=clear_text, relief='raised', width=10, height=2, borderwidth=3)
                 clear_button.place(x=230, y=270)
 
-                quit_button = tk.Button(login_tab, text="Exit", command=self.quit, relief='raised', width=10, height=2, borderwidth=3)
+                quit_button = tk.Button(login_tab, text="Exit", command=lambda c=courses,s=students:on_closing(self,c,s), 
+                                        relief='raised', width=10, height=2, borderwidth=3)
                 quit_button.place(x=420, y=270)
 
 
