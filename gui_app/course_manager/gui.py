@@ -3,7 +3,7 @@ tkinter gui
 """
 
 import tkinter as tk
-from tkinter import Frame, ttk, font, ANCHOR
+from tkinter import Frame, ttk
 
 from .classes import Student
 from .resources import load_json, save_json
@@ -271,7 +271,7 @@ class CourseFrame(tk.Frame):
 
                 # enroll & unenroll buttons
                 def enroll():
-                        selected_item = course_listbox.get(ANCHOR)
+                        selected_item = course_listbox.get(tk.ANCHOR)
 
                         global active_user
                         for offered_course in course_list:
