@@ -15,14 +15,19 @@ GUI includes:
 import tkinter as tk
 from tkinter import Frame, ttk, font, ANCHOR
 
+from .classes import Student
 from .resources import load_json
+
+
+# the current logged-in user
+active_user:Student = None
+print(f'active user: {active_user}')
 
 
 class CourseApp(tk.Tk):
         def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)
 
-                # load from json file
                 courses, students = load_json()
 
                 # the container is where we'll stack a bunch of frames
@@ -62,6 +67,8 @@ class CourseApp(tk.Tk):
                 '''Show a frame for the given page name'''
                 frame=self.frames[page_name]
                 frame.tkraise()
+                if isinstance(frame, CourseFrame):
+                        frame.update_elements()
 
 
 class StartPage(tk.Frame):
@@ -131,6 +138,9 @@ class StartPage(tk.Frame):
                                 username.set('')
                                 login_error_lbl['text']=''
                                 controller.show_frame('CoursesPage')
+                                global active_user
+                                active_user = found_user
+                                print(f'active user: {active_user}')
 
                         else:
                                 login_error_lbl['text']='Incorrect username or password'
@@ -210,11 +220,16 @@ class CoursesPage(tk.Frame):
                         button.place(x=x, y=y)
 
 
-                # make an logout button                
-                exit_button = tk.Button(courses_tab, text="Log Out", 
-                                        command=lambda:controller.show_frame('StartPage'), 
+                # make an logout button  
+                def log_out():
+                        global active_user
+                        active_user = None
+                        print(f'active user: {active_user}')
+                        controller.show_frame('StartPage')
+
+                logout_button = tk.Button(courses_tab, text="Log Out", command=log_out, 
                                         relief='raised', borderwidth=2, width=10, height=2)
-                exit_button.place(x=515, y=0)
+                logout_button.place(x=515, y=0)
 
 
 
@@ -251,23 +266,52 @@ class CourseFrame(tk.Frame):
 
                 # enroll & unenroll buttons
                 def enroll():
-                        enrolled_course_lbl.config(text=course_listbox.get(ANCHOR))
-                        schedule_lbl.config(text=course_listbox.get(ANCHOR))
-                        enroll_button['state'] = tk.DISABLED
-                        unenroll_button['state'] = tk.NORMAL
+                        selected_item = course_listbox.get(ANCHOR)
+
+                        global active_user
+                        for offered_course in course_list:
+                                if str(offered_course) == selected_item:
+                                        active_user.courses.append(offered_course)
+                                        break
+                        print(f'active user: {active_user}')
+
+                        update_elements()
 
                 def unenroll():
-                        enrolled_course_lbl.config(text='')
-                        schedule_lbl.config(text='')
-                        enroll_button['state'] = tk.NORMAL
-                        unenroll_button['state'] = tk.DISABLED
+                        global active_user
+                        for offered_course in course_list:
+                                if offered_course in active_user.courses:
+                                        active_user.courses.remove(offered_course)
+                                        break
+                        print(f'active user: {active_user}')
+
+                        update_elements()
+
+                def update_elements():
+                        """Accurately displays active_user's selected course and [un]enroll buttons"""
+                        global active_user
+                        for offered_course in course_list:
+                                if offered_course in active_user.courses:
+                                        course_text = str(offered_course)
+                                        enrolled_course_lbl.config(text=course_text)
+                                        schedule_lbl.config(text=course_text)
+                                        enroll_button['state'] = tk.DISABLED
+                                        unenroll_button['state'] = tk.NORMAL
+                                        break
+                        else:
+                                enrolled_course_lbl.config(text='')
+                                schedule_lbl.config(text='')
+                                enroll_button['state'] = tk.NORMAL
+                                unenroll_button['state'] = tk.DISABLED
+                
+                # give access to update_elements from outside __init__
+                self.update_elements = update_elements
                 
                 enroll_button = tk.Button(this_course_tab, text="Enroll", relief='raised', command=enroll, borderwidth=3, width=15, height=3)
                 enroll_button.place(x=40, y=180)
 
                 unenroll_button = tk.Button(this_course_tab, text="Unenroll", relief='raised', command=unenroll, borderwidth=3, width=15, height=3)
                 unenroll_button.place(x=229, y=180)
-                unenroll_button['state'] = tk.DISABLED
 
 
                 # display the enrolled class
