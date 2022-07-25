@@ -8,7 +8,7 @@ from tkinter import Frame, ttk
 from .classes import Student
 from .resources import load_json, save_json
 
-# Creat names and pin for the users to login {"username":"Pin"}
+# (for demo only) show usernames and their passwords
 print({"yahya": "1111", "gunnar": "2222", "alvin": "3333", "shanika": "4444"})
 
 
@@ -59,20 +59,23 @@ class CourseApp(tk.Tk):
                 self.show_frame("StartPage")
         
 
+        # functions that allow the frames to communicate
         def show_frame(self, page_name):
                 '''Show a frame for the given page name'''
                 frame=self.frames[page_name]
                 frame.tkraise()
                 if isinstance(frame, CourseFrame):
                         frame.update_elements()
-        
 
+        def update_schedule(self, index:int, value:str):
+                courses_page = [frame for frame in self.frames.values() if isinstance(frame, CoursesPage)][0]
+                courses_page.update_schedule(index, value)
+        
         def update_all(self):
                 for frame in self.frames.values():
                         if isinstance(frame, CourseFrame):
                                 frame.update_elements()
-
-
+                        
         def on_closing(self):
                 """Saves and closes the app"""
                 save_json(self._courses, self._students)
@@ -189,7 +192,6 @@ class CoursesPage(tk.Frame):
                 courses_tab = Frame(notebook, bg='#003366')
                 courses_tab.pack()
 
-                global schedule_tab
                 schedule_tab = Frame(notebook, bg="#003366")
                 schedule_tab.pack()
 
@@ -235,6 +237,33 @@ class CoursesPage(tk.Frame):
                 logout_button = tk.Button(courses_tab, text="Log Out", command=log_out, 
                                         relief='raised', borderwidth=2, width=10, height=2)
                 logout_button.place(x=551, y=0)
+
+
+                # initialize schedule variables
+                NUM_LABELS = 9
+
+                schedule_lbls = []
+                schedule_strs = [''] * NUM_LABELS
+
+                for i in range(NUM_LABELS):
+                        lbl = tk.Label(schedule_tab, text='', fg='white', bg='#333333', borderwidth=5, relief='raised', width=69, height=2)
+                        lbl.place(x=4, y=45*i+2)
+                        schedule_lbls.append(lbl)
+
+                # schedule updating and condensing functionality
+                def update_schedule(index=None, value=None):
+                        if index is not None and value is not None:
+                                schedule_strs[index] = value
+                        
+                        non_empty_strs = [s for s in schedule_strs if s != '']
+                        for i, lbl in enumerate(schedule_lbls):
+                                if i < len(non_empty_strs):
+                                        lbl.config(text=non_empty_strs[i])
+                                else:
+                                        lbl.config(text='')
+
+                # expose update_schedule to outside classes
+                self.update_schedule = update_schedule
 
 
 
@@ -297,13 +326,13 @@ class CourseFrame(tk.Frame):
                                 if offered_course in active_user.courses:
                                         course_text = str(offered_course)
                                         enrolled_course_lbl.config(text=course_text)
-                                        schedule_lbl.config(text=course_text)
+                                        controller.update_schedule(course_index, course_text)
                                         enroll_button['state'] = tk.DISABLED
                                         unenroll_button['state'] = tk.NORMAL
                                         break
                         else:
                                 enrolled_course_lbl.config(text='')
-                                schedule_lbl.config(text='')
+                                controller.update_schedule(course_index, '')
                                 enroll_button['state'] = tk.NORMAL
                                 unenroll_button['state'] = tk.DISABLED
                 
@@ -321,11 +350,6 @@ class CourseFrame(tk.Frame):
                 enrolled_course_lbl = tk.Label(this_course_tab, text='Enrolled class will appear here.', fg='white', bg='#333333', 
                                                borderwidth=5, relief='raised', width=69, height=2)
                 enrolled_course_lbl.place(x=4, y=120)
-
-
-                # display the enrolled class in the schedule
-                schedule_lbl = tk.Label(schedule_tab, text='Enrolled class will appear here.', fg='white', bg='#333333', borderwidth=5, relief='raised', width=69, height=2)
-                schedule_lbl.place(x=4, y=45*course_index+2)
 
 
                 # back button
