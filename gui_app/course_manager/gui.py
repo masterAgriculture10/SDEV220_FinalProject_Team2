@@ -46,7 +46,7 @@ class CourseApp(tk.Tk):
                                 frame = F(parent=container, controller=self, listbox_courses=filtered_courses, course_index=i)
                                 i += 1
                         elif issubclass(F, StartPage):
-                                frame = F(parent=container, controller=self, users=students, courses=courses)
+                                frame = F(parent=container, controller=self, users=students)
                         else:
                                 frame = F(parent=container, controller=self)
 
@@ -141,10 +141,10 @@ class StartPage(tk.Frame):
                         elif (found_user := find_user(input_username, input_password, users)) is not None:
                                 username.set('')
                                 login_error_lbl['text']=''
-                                controller.update_all()
                                 controller.show_frame('CoursesPage')
                                 global active_user
                                 active_user = found_user
+                                controller.update_all()
 
                         else:
                                 login_error_lbl['text']='Incorrect username or password'
